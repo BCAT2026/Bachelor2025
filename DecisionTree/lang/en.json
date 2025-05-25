@@ -51,7 +51,7 @@
 
     "ICON_SUBTITLE": "BEFORE ASSESSMENT  ➔ 0 of 8",
     "ICON_T1": "Above, you can see which of the 8 steps you are at in the process.",
-    "ICON_T2": "Below, you can see the percentage of the process that us been complete.",
+    "ICON_T2": "Below, you can see the percentage of the process that is complete.",
     "GREEN_T": "➔ Continue to the next step",
     "YELLOW_T": "➔ Uncertainties in the process",
     "RED_T": "➔ End of the decision tree",
