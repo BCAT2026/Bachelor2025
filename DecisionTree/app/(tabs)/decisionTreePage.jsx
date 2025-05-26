@@ -22,6 +22,7 @@ const DecisionTreePage = () => {
   const [feedbackOption, setFeedbackOption] = useState(null);
   const [answers, setAnswers] = useState({});
   const [history, setHistory] = useState([]);
+  const [lockedProgress, setLockedProgress] = useState(null);
 
   const decisionTreeData = i18n.language === 'no' ? decisionTreeDataNO : decisionTreeDataEN;
   const currentNode = decisionTreeData.find((node) => node.id === currentId);
@@ -103,7 +104,11 @@ const DecisionTreePage = () => {
       if (selectedOption.next) {
         const nextNode = decisionTreeData.find((n) => n.id === selectedOption.next);
         if (nextNode?.isTransition) {
-          setCurrentId(nextNode.id);
+          const referenceIndex = extractNumber(currentId);
+const progress = Math.round((referenceIndex / 37) * 100);
+setLockedProgress(progress);
+setCurrentId(nextNode.id);
+
           return;
         }
       }
@@ -186,12 +191,15 @@ const DecisionTreePage = () => {
   if (currentNode?.isTransition) {
     return (
       <ParallaxScrollView>
-        <TransitionMessage
-          message={currentNode.message}
-          onNext={() => setCurrentId(currentNode.next)}
-          progress={overallProgress}
-        />
-      </ParallaxScrollView>
+      <TransitionMessage
+        message={currentNode.message}
+        onNext={() => {
+          setCurrentId(currentNode.next);
+          setLockedProgress(null); // nullstill etterpå
+        }}
+        progress={lockedProgress ?? overallProgress}
+      />
+    </ParallaxScrollView>
     );
   }
 
