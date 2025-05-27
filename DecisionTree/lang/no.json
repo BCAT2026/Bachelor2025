@@ -52,9 +52,9 @@
     "ICON_SUBTITLE": "FØR GJENNOMFØRING ➔ 0 av 8",
     "ICON_T1": "Over vises hvilket av de 8 trinnene du er på i prosessen.",
     "ICON_T2": "Nedenfor vises hvor mange prosent som er gjennomført.",
-    "GREEN_T": "➔ Fortsett på neste trinn",
-    "YELLOW_T": "➔ Usikkerheter i prosessen",
-    "RED_T": "➔ Markerer avslutning av beslutningstreet",
+    "GREEN_T": "Fortsett på neste trinn",
+    "YELLOW_T": "Usikkerheter i prosessen",
+    "RED_T": "Markerer avslutning av beslutningstreet",
 
     "MORE_INFO": "Mer informasjon",
     "MORE_1": "Om appen",
@@ -66,7 +66,9 @@
         "red": "Ikke gå videre!",
         "yellow": "Før du går videre"
     },
-    "DEFAULT_FEEDBACK_MESSAGE": "Tilbakemelding mangler - dette er en testtekst."
+    "DEFAULT_FEEDBACK_MESSAGE": "Tilbakemelding mangler - dette er en testtekst.",
+    
+    "MISSING_QUESTION": "Spørsmål kunne ikke laste."
     }
   }
   

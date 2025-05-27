@@ -1,140 +1,140 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, View, Image } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import TipsBox from '@/components/TipsBox';
 import NextButton from '@/components/NextButton';
-import Header from '@/components/Header';
-import ProgressBar from '../../components/ProgressBar';
+import ProgressBar from '@/components/ProgressBar';
 import { useTranslation } from 'react-i18next';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Header from '@/components/Header';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ProgressTips() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const { reset } = useLocalSearchParams();
 
   const handleNext = () => {
-    router.push({ pathname: '/decisionTreePage', params: { reset: 'true' } });
+    router.push({ pathname: '/decisionTreePage', params: { reset } });
+  };
+
+  const handleGestureEnd = (event) => {
+    const SWIPE_THRESHOLD = 80;
+    if (event.translationX > SWIPE_THRESHOLD) {
+      router.push({ pathname: '/decisionTreePage', params: { reset } });
+    } else if (event.translationX < -SWIPE_THRESHOLD) {
+      router.push({ pathname: '/swipeTips', params: { reset } });
+    }
   };
 
   return (
-    <>
-      <Stack.Screen options={{ headerShown: false }} />
+    <PanGestureHandler onEnded={({ nativeEvent }) => handleGestureEnd(nativeEvent)}>
+      <View style={[styles.container, { paddingTop: insets.top + 10, paddingBottom: insets.bottom + 20 }]}>
+        {/* TOPP */}
+        <View style={styles.top}>
+          <Header />
+        </View>
 
-      <GestureRecognizer
-        onSwipeRight={handleNext}
-        onSwipeLeft={() => router.push('/swipeTips')}
-        config={{ velocityThreshold: 0.3, directionalOffsetThreshold: 80 }}
-        style={{ flex: 1 }}
-      >
-        
-        
-        <ThemedView style={styles.container}>
-          {/* TOPP */}
-          <View style={styles.topArea}>
-            <Header />
-            <ThemedText style={styles.subtitle}>{t('ICON_SUBTITLE')}</ThemedText>
-          </View>
+        {/* MIDT */}
+        <View style={styles.middle}>
+          <ThemedText style={styles.title}>{t('ICON_SUBTITLE')}</ThemedText>
+          <TipsBox
+            title="Tips!"
+            subtitle={
+              <View style={{ width: '100%' }}>
+                <ThemedText style={styles.text_tips}>{t('ICON_T1')}</ThemedText>
+                <ThemedText style={styles.text_tips}>{t('ICON_T2')}</ThemedText>
 
-          {/* MIDT */}
-          <View style={styles.middleArea}>
-            <TipsBox
-              title="Tips!"
-              subtitle={
-                <View style={{ width: '100%' }}>
-                  <ThemedText style={styles.text_tips}>{t('ICON_T1')}</ThemedText>
-                  <ThemedText style={styles.text_tips}>{t('ICON_T2')}</ThemedText>
-
-                  {/* Grønt */}
-                  <View style={styles.inlineRow}>
-                    <Image
-                      source={require('@/assets/images/warning_green.png')}
-                      style={styles.inlineIcon}
-                      resizeMode="contain"
-                      accessibilityLabel={t('ALT_GREENICON')}
-                    />
-                    <View style={styles.textContainer}>
-                      <ThemedText style={styles.text_inline}>{t('GREEN_T')}</ThemedText>
-                    </View>
-                  </View>
-
-                  {/* Gult */}
-                  <View style={styles.inlineRow}>
-                    <Image
-                      source={require('@/assets/images/warning_yellow.png')}
-                      style={styles.inlineIcon}
-                      resizeMode="contain"
-                      accessibilityLabel={t('ALT_YELLOWICON')}
-                      accessibilityRole='image'
-                    />
-                    <View style={styles.textContainer}>
-                      <ThemedText style={styles.text_inline}>{t('YELLOW_T')}</ThemedText>
-                    </View>
-                  </View>
-
-                  {/* Rødt */}
-                  <View style={styles.inlineRow}>
-                    <Image
-                      source={require('@/assets/images/warning_red.png')}
-                      style={styles.inlineIcon}
-                      resizeMode="contain"
-                      accessibilityLabel={t('ALT_REDICON')}
-                      accessibilityRole='image'
-                    />
-                    <View style={styles.textContainer}>
-                      <ThemedText style={styles.text_inline}>{t('RED_T')}</ThemedText>
-                    </View>
+                {/* Grønn */}
+                <View style={styles.inlineRow}>
+                  <Image
+                    source={require('@/assets/images/warning_green.png')}
+                    style={styles.inlineIcon}
+                    resizeMode="contain"
+                    accessibilityLabel={t('ALT_GREENICON')}
+                  />
+                  <View style={styles.descriptionContainer}>
+                    <Ionicons name="arrow-forward" size={16} color="#2E443E" style={styles.bulletIcon} />
+                    <ThemedText style={styles.text_inline}>{t('GREEN_T')}</ThemedText>
                   </View>
                 </View>
-              }
-            />
 
-            {/* PROGRESSBAR */}
-            <View style={styles.progressBarContainer}>
-              <ProgressBar progress={0} accessibilityRole='progressbar'/>
-            </View>
-          </View>
+                {/* Gul */}
+                <View style={styles.inlineRow}>
+                  <Image
+                    source={require('@/assets/images/warning_yellow.png')}
+                    style={styles.inlineIcon}
+                    resizeMode="contain"
+                    accessibilityLabel={t('ALT_YELLOWICON')}
+                  />
+                  <View style={styles.descriptionContainer}>
+                    <Ionicons name="arrow-forward" size={16} color="#2E443E" style={styles.bulletIcon} />
+                    <ThemedText style={styles.text_inline}>{t('YELLOW_T')}</ThemedText>
+                  </View>
+                </View>
 
-          {/* BUNN */}
-          <View style={styles.bottomArea}>
-            <NextButton onPress={handleNext} text={t('NEXT')} accessibilityRole='button'/>
-          </View>
-        </ThemedView>
-      </GestureRecognizer>
-    </>
+                {/* Rød */}
+                <View style={styles.inlineRow}>
+                  <Image
+                    source={require('@/assets/images/warning_red.png')}
+                    style={styles.inlineIcon}
+                    resizeMode="contain"
+                    accessibilityLabel={t('ALT_REDICON')}
+                  />
+                  <View style={styles.descriptionContainer}>
+                    <Ionicons name="arrow-forward" size={16} color="#2E443E" style={styles.bulletIcon} />
+                    <ThemedText style={styles.text_inline}>{t('RED_T')}</ThemedText>
+                  </View>
+                </View>
+              </View>
+            }
+          />
+        </View>
+
+        {/* BUNN */}
+        <View style={styles.bottom}>
+          <ProgressBar
+            progress={0}
+            accessibilityRole="progressbar"
+            accessibilityValue={{ min: 0, max: 100, now: 0 }}
+          />
+          <NextButton onPress={handleNext} text={t('NEXT')} accessibilityRole="button" />
+        </View>
+      </View>
+    </PanGestureHandler>
   );
 }
-
-
-const PRIMARY = '#345641';
-const BG = '#fff';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: BG,
     paddingHorizontal: 20,
-    paddingTop: 90,
-    paddingBottom: 20,
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
   },
-  topArea: {
+  top: {
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 8,
   },
-  middleArea: {
-    flex: 1,
-    width: '100%',
+  middle: {
+    flexGrow: 1,
     justifyContent: 'flex-start',
+    gap: 12,
   },
-  subtitle: {
+  bottom: {
+    width: '100%',
+    alignItems: 'center',
+    gap: 16,
+    paddingHorizontal: 18,
+  },
+  title: {
     fontSize: 16,
-    color: PRIMARY,
+    color: '#345641',
     fontWeight: '400',
-    letterSpacing: 0.5,
-    marginBottom: 18,
     textAlign: 'center',
-    alignSelf: 'center',
   },
   text_tips: {
     fontSize: 16,
@@ -145,37 +145,37 @@ const styles = StyleSheet.create({
   },
   inlineRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     width: '100%',
     marginBottom: 6,
   },
   inlineIcon: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     marginRight: 10,
-    flexShrink: 0,
   },
-  textContainer: {
+  descriptionContainer: {
     flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
+  bulletIcon: {
+    marginRight: 6,
+    marginTop: 3,
   },
   text_inline: {
     fontSize: 16,
     color: '#2E443E',
     lineHeight: 24,
     flexShrink: 1,
-    flexWrap: 'wrap',
-  },
-  progressBarContainer: {
-    width: '100%',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  bottomArea: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 10,
+    flex: 1,
   },
 });
+
+
+
+
+
 
 

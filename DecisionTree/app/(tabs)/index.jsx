@@ -1,69 +1,88 @@
-import { StyleSheet, Image, TouchableOpacity, Text, Modal } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Image, TouchableOpacity, Text, Modal, View, Dimensions, } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LanguageSelector from '../../components/LanguageSelector';
 import { ThemedView } from '../../components/ThemedView';
-import React, { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-{/* Nesteknapp
-  import NextButton from '../../components/NextButton'; */}
+
+const { width: screenWidth } = Dimensions.get('window');
 
 export default function IndexScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
 
-  {/* Nesteknapp
-    const handleNeste = () => {} */}
-
   return (
     <ThemedView style={styles.container}>
-      <ThemedView style={styles.languageButton}>
-        <LanguageSelector />
-      </ThemedView>
+      {/* TOPP */}
+      <View style={styles.top}>
+        <TouchableOpacity
+          style={styles.helpIcon}
+          onPress={() => setModalVisible(true)}
+          accessibilityRole="button"
+          accessibilityLabel="Help: About the app"
+        >
+          <Ionicons
+            name="help-circle-outline"
+            size={30}
+            color="#345641"
+          />
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.helpIcon} onPress={() => setModalVisible(true)} accessibilityRole="button">
-        <Ionicons name="help-circle-outline" size={30} color="#345641" accessibilityLabel='Question mark' />
-      </TouchableOpacity>
+        <ThemedView style={styles.languageButton}>
+          <LanguageSelector />
+        </ThemedView>
+      </View>
 
-      <Image
-        source={require('../../assets/images/Logo_bildeogtekst.png')}
-        style={styles.logo}
-        resizeMode="contain"
-        accessibilityLabel="Logo - BCAT"
-      />
 
-      {/* Nesteknappen
-      <NextButton onPress={handleNeste} text="Neste" />*/}
+      {/* MIDT */}
+      <View style={styles.middle}>
+        <Image
+          source={require('../../assets/images/Logo_bildeogtekst.png')}
+          style={styles.logo}
+          resizeMode="contain"
+          accessibilityLabel="Logo - BCAT"
+        />
+      </View>
 
-<TouchableOpacity
-  style={styles.startButton}
-  onPress={() => router.push({ pathname: '/swipeTips', params: { reset: 'true' } })}
-  accessibilityRole="button"
->
-  <Text style={styles.startText}>{t('START')}</Text>
-</TouchableOpacity>
+      {/* BUNN */}
+      <View style={styles.bottom}>
+        <TouchableOpacity
+          style={styles.startButton}
+          onPress={() => router.push({ pathname: '/swipeTips', params: { reset: 'true' } })}
+          accessibilityRole="button"
+        >
+          <Text style={styles.startText}>{t('START')}</Text>
+        </TouchableOpacity>
+      </View>
 
-<Modal
+      {/* MODAL */}
+      <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <TouchableOpacity style={styles.modalOverlay} onPress={() => setModalVisible(false)} accessibilityRole="button">
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          onPress={() => setModalVisible(false)}
+          accessibilityRole="button"
+        >
           <TouchableOpacity style={styles.modalBox} activeOpacity={1}>
             <Text style={styles.modalTitle}>{t('ABOUT_APP_TITLE')}</Text>
-            <Text style={styles.modalText}>
-              {t('ABOUT_APP_TEXT')}
-            </Text>
-            <TouchableOpacity style={styles.modalCloseButton} onPress={() => setModalVisible(false)} accessibilityRole="button">
+            <Text style={styles.modalText}>{t('ABOUT_APP_TEXT')}</Text>
+            <TouchableOpacity
+              style={styles.modalCloseButton}
+              onPress={() => setModalVisible(false)}
+              accessibilityRole="button"
+            >
               <Text style={styles.modalCloseText}>{t('CLOSE')}</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-
     </ThemedView>
   );
 }
@@ -71,18 +90,38 @@ export default function IndexScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  top: {
+    position: 'absolute',
+    top: 60,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    zIndex: 10,
+  },
+  languageButton: {
+    minWidth: 44,
+    minHeight: 44,
+  },
+  helpIcon: {
+    minWidth: 44,
+    minHeight: 44,
+  },
+  middle: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  languageButton: {
-    position: 'absolute',
-    top: 60,
-    right: 20,
-  },
   logo: {
-    width: 290,
-    height: 290,
-    marginBottom: 100,
+    width: screenWidth * 0.8,
+    height: screenWidth * 0.8,
+    marginBottom: 60,
+  },
+  bottom: {
+    alignItems: 'center',
+    marginBottom: 40,
   },
   startButton: {
     backgroundColor: '#345641',
@@ -105,12 +144,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
     marginBottom: -2,
-  },
-  helpIcon: {
-    position: 'absolute',
-    top: 60,
-    left: 20,
-    zIndex: 10,
   },
   modalOverlay: {
     flex: 1,
@@ -148,8 +181,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-
 });
+
 
 /* Kilder
 * Image - https://reactnative.dev/docs/image 

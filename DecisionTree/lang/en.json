@@ -52,9 +52,9 @@
     "ICON_SUBTITLE": "BEFORE ASSESSMENT  ➔ 0 of 8",
     "ICON_T1": "Above, you can see which of the 8 steps you are at in the process.",
     "ICON_T2": "Below, you can see the percentage of the process that is complete.",
-    "GREEN_T": "➔ Continue to the next step",
-    "YELLOW_T": "➔ Uncertainties in the process",
-    "RED_T": "➔ End of the decision tree",
+    "GREEN_T": "Continue to the next step",
+    "YELLOW_T": "Uncertainties in the process",
+    "RED_T": "End of the decision tree",
 
     "MORE_INFO": "More information",
     "MORE_1": "About",
@@ -67,6 +67,8 @@
         "red": "Do not proceed!",
         "yellow": "Before you continue"
     },
-    "DEFAULT_FEEDBACK_MESSAGE": "Feedback missing - this is a test text."
+    "DEFAULT_FEEDBACK_MESSAGE": "Feedback missing - this is a test text.",
+
+    "MISSING_QUESTION": "Question could not load."
    }
   }

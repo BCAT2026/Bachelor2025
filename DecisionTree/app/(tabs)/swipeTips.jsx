@@ -1,112 +1,119 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import TipsBox from '@/components/TipsBox';
-import NextButton from '@/components/NextButton';
 import Header from '@/components/Header';
-import { useTranslation } from 'react-i18next';
 import SwipeAnimation from '@/components/SwipeAnimation';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import NextButton from '@/components/NextButton';
 
 export default function SwipeTips() {
   const router = useRouter();
+  const { reset } = useLocalSearchParams();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
 
-  const handleNext = async () => {
-    try {
-      await AsyncStorage.setItem('hasSeenSwipeTips', 'true');
-      router.push('/iconTips');
-    } catch (error) {
-      console.error('Feil ved lagring av instruksjonsstatus:', error);
-      router.push('/(tabs)/decisionTreePage');
+  const handleGestureEnd = (event) => {
+    const SWIPE_THRESHOLD = 80;
+    if (event.translationX > SWIPE_THRESHOLD) {
+      router.push({ pathname: '/iconTips', params: { reset } });
+    } else if (event.translationX < -SWIPE_THRESHOLD) {
+      router.back();
     }
   };
 
+  const handleNext = () => {
+    router.push({ pathname: '/iconTips', params: { reset } });
+  };
+
   return (
-    <>
-      <Stack.Screen options={{ headerShown: false }} />
-
-      <GestureRecognizer
-        onSwipeRight={handleNext}
-        onSwipeLeft={() => router.back()}
-        config={{ velocityThreshold: 0.3, directionalOffsetThreshold: 80 }}
-        style={{ flex: 1 }}
-        accessibilityRole="image"
-        accessibilityLabel={t('ALT_SWIPEHAND')}
-      >
-        <ThemedView style={styles.container}>
+    <PanGestureHandler onEnded={({ nativeEvent }) => handleGestureEnd(nativeEvent)}>
+      <ThemedView style={[styles.container, { paddingBottom: insets.bottom || 20 }]}>
+        <View style={[styles.top, { paddingTop: insets.top || 10 }]}>
           <Header />
-          <ThemedText style={styles.subtitle}>{t('TITLE_GUIDELINES')}</ThemedText>
+        </View>
 
-          <TipsBox subtitle={t('TIP1')} />
-
-          <SwipeAnimation />
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.noButton} activeOpacity={1} accessibilityRole="button">
-              <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
-            </TouchableOpacity>
-
-            <View style={styles.separator} />
-
-            <TouchableOpacity
-              style={styles.yesButton}
-              onPress={handleNext}
-              activeOpacity={0.8}
-            >
-              <ThemedText style={styles.yesButtonText}>{t('YES')}</ThemedText>
-            </TouchableOpacity>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* MIDT */}
+          <View style={styles.middle}>
+            <ThemedText style={styles.title} accessibilityRole="header">
+              {t('TITLE_GUIDELINES')}
+            </ThemedText>
+            <TipsBox subtitle={t('TIP1')} />
+            <SwipeAnimation accessibilityLabel={t('ALT_SWIPEHAND')} />
           </View>
 
-          <NextButton onPress={handleNext} text={t('NEXT')} style={styles.nextButton} />
-        </ThemedView>
-      </GestureRecognizer>
-    </>
+          {/* JA/NEI */}
+          <View style={styles.buttonContainer}>
+            <View style={styles.noButton} accessibilityRole="button" accessibilityLabel={t('NO')}>
+              <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
+            </View>
+            <View style={styles.separator} />
+            <View
+              style={styles.yesButton}
+              accessibilityRole="button"
+              accessibilityLabel={t('YES')}
+              onTouchEnd={handleNext}
+            >
+              <ThemedText style={styles.yesButtonText}>{t('YES')}</ThemedText>
+            </View>
+          </View>
+        </ScrollView>
+
+        {/* BUNN */}
+        <View style={styles.bottom}>
+          <NextButton onPress={handleNext} text={t('NEXT')} accessibilityRole="button" />
+        </View>
+      </ThemedView>
+    </PanGestureHandler>
   );
 }
-
 
 const PRIMARY = '#345641';
 const BG = '#fff';
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: BG,
-    paddingTop: 70
-  },
-  
   container: {
     flex: 1,
-    paddingHorizontal: 22,
-    alignItems: 'flex-start',
     backgroundColor: BG,
-    paddingTop: 50,
+    paddingHorizontal: 22,
   },
-  subtitle: {
+  top: {
+    width: '100%',
+    marginBottom: 8,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+  },
+  middle: {
+    gap: 0,
+  },
+  title: {
     fontSize: 16,
     color: PRIMARY,
     fontWeight: '500',
     letterSpacing: 0.5,
-    marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 8,
     textAlign: 'center',
-    alignSelf: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
     gap: 40,
     marginTop: 0,
-    marginBottom: 22,
-    alignSelf: 'center',
+    marginBottom: 32,
   },
-  
   noButton: {
     backgroundColor: '#fff',
-    borderColor: '#345641',
+    borderColor: PRIMARY,
     borderWidth: 2,
     width: 100,
     height: 100,
@@ -115,8 +122,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   yesButton: {
-    backgroundColor: '#345641',
-    borderColor: '#345641',
+    backgroundColor: PRIMARY,
+    borderColor: PRIMARY,
     borderWidth: 2,
     width: 100,
     height: 100,
@@ -125,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noButtonText: {
-    color: '#345641',
+    color: PRIMARY,
     fontSize: 20,
     textAlign: 'center',
     fontFamily: 'Poppins_400Regular',
@@ -139,8 +146,21 @@ const styles = StyleSheet.create({
   separator: {
     width: 2,
     height: 60,
-    backgroundColor: '#345641',
+    backgroundColor: PRIMARY,
     borderRadius: 1,
-    alignSelf: 'center'
+  },
+  bottom: {
+    alignItems: 'center',
+    paddingTop: 8,
   },
 });
+
+
+
+
+
+
+
+
+
+

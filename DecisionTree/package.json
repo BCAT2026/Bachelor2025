@@ -40,6 +40,7 @@
     "i18next": "^24.2.3",
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^3.0.2",
+    "jest-expo": "~53.0.5",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-i18next": "^15.4.1",
@@ -52,8 +53,7 @@
     "react-native-svg": "15.11.2",
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-web": "0.20.0",
-    "react-native-webview": "13.13.5",
-    "jest-expo": "~53.0.5"
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
