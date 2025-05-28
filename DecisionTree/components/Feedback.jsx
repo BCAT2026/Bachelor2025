@@ -41,53 +41,71 @@ export default function Feedback({ feedbackType = 'green', message = '', onNext 
 
   return (
     <ParallaxScrollView noPadding>
-      {showFeedback && (
-        <View style={styles.lineWrapper}>
-          <View style={[styles.curvedLine, { backgroundColor: color }]} />
-          <Image source={icon} style={styles.icon} />
-        </View>
-      )}
+      <View style={styles.container}>
 
-      <View style={styles.scrollContent}>
+        {/* TOPP */}
         {showFeedback && (
-          <>
-            <ThemedText type="title" style={styles.title}>
-              {title}
-            </ThemedText>
-
-            <View style={styles.textWrapper}>
-              <ThemedText type="default" style={styles.text}>
-                {finalMessage}
-              </ThemedText>
+          <View style={styles.top}>
+            <View style={styles.lineWrapper}>
+              <View style={[styles.curvedLine, { backgroundColor: color }]} />
+              <Image source={icon} style={styles.icon} accessibilityLabel={accessibilityLabel} />
             </View>
-          </>
-        )}
-
-        <NextButton
-          onPress={handlePress}
-          text={t('NEXT')}
-          feedbackType={feedbackType}
-        />
-
-        {/* Avsluttknapp som kun vises ved rød tilbakemelding */}
-        {isRed && (
-          <View style={{ marginTop: 16 }}>
-            <ExitButton
-              onPress={() => router.replace({ pathname: '/', params: { reset: 'true' } })}
-              text={t('EXIT')}
-            />
           </View>
         )}
+
+        {/* MIDT */}
+        <View style={styles.middle}>
+          {showFeedback && (
+            <>
+              <ThemedText type="title" style={styles.title}>
+                {title}
+              </ThemedText>
+              <View style={styles.textWrapper}>
+                <ThemedText type="default" style={styles.text}>
+                  {finalMessage}
+                </ThemedText>
+              </View>
+            </>
+          )}
+        </View>
+
+        {/* BUNN */}
+        <View style={styles.bottom}>
+          <NextButton
+            onPress={handlePress}
+            text={t('NEXT')}
+            feedbackType={feedbackType}
+          />
+
+          {isRed && (
+            <View style={{ marginTop: 16 }}>
+              <ExitButton
+                onPress={() => router.replace({ pathname: '/', params: { reset: 'true' } })}
+                text={t('EXIT')}
+              />
+            </View>
+          )}
+        </View>
+        
       </View>
     </ParallaxScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+  },
+  top: {
+    marginTop: 80,
+    marginBottom: 40,
+    alignItems: 'center',
+  },
   lineWrapper: {
     position: 'relative',
-    marginTop: 60,
-    marginBottom: 40,
+    width: '100%',
   },
   curvedLine: {
     width: '100%',
@@ -108,7 +126,7 @@ const styles = StyleSheet.create({
     height: 65,
     resizeMode: 'contain',
   },
-  scrollContent: {
+  middle: {
     paddingHorizontal: 24,
     alignItems: 'center',
   },
@@ -128,4 +146,10 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     fontSize: 16,
   },
+  bottom: {
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingBottom: 40,
+  },
 })
+

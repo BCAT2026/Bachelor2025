@@ -17,12 +17,14 @@ export default function More() {
 
   return (
     <ParallaxScrollView>
+      {/* TOPP */}
       <Header />
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView style={styles.top}>
         <ThemedText type="title" style={styles.title}>{t('MORE_INFO')}</ThemedText>
       </ThemedView>
 
-      <View style={styles.tableContainer}>
+      {/* MIDT */}
+      <View style={styles.middle}>
         {infoItems.map((item) => (
           <View key={item.number} style={styles.row}>
             <View style={styles.numberCircle}>
@@ -32,12 +34,15 @@ export default function More() {
           </View>
         ))}
       </View>
+
+      {/* BUNN */}
+      <View style={styles.bottom} />
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  top: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_600SemiBold',
     textAlign: 'center',
   },
-  tableContainer: {
+  middle: {
     width: '100%',
     borderTopWidth: 1,
     borderColor: '#ccc',
@@ -80,7 +85,11 @@ const styles = StyleSheet.create({
     color: '#2E443E',
     flexShrink: 1,
   },
+  bottom: {
+    height: 20,
+  },
 });
+
 
 
 
