@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS, } from 'react-native-reanimated';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  runOnJS,
+} from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useTranslation } from 'react-i18next';
 import ProgressBar from './ProgressBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Markdown from 'react-native-markdown-display';
+import { useRouter } from 'expo-router';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
@@ -14,6 +21,7 @@ const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, progress }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const translateX = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -23,7 +31,6 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
 
   const animateOutAndAnswer = (isYes) => {
     const direction = isYes ? 1 : -1;
-
     translateX.value = withTiming(direction * SCREEN_WIDTH, { duration: 250 }, () => {
       runOnJS(onAnswer)(isYes);
       translateX.value = -direction * SCREEN_WIDTH;
@@ -45,13 +52,24 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
     animateOutAndAnswer(isYes);
   };
 
+  const handleLinkPress = (url) => {
+    if (url.startsWith('pdf:')) {
+      const filename = url.replace('pdf:', '');
+      router.push({ pathname: '/pdfView', params: { filename } });
+      return false;
+    }
+    return true;
+  };
+
+  const isPlainText = !question?.includes('[') && !question?.includes(']') && !question?.includes('(');
+
   useEffect(() => {
     translateX.value = withTiming(0);
   }, [question]);
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom + 20 }]}>
-      {/* Toppdel: steginfo og forrigeknapp */}
+      {/* Toppdel: steginfo */}
       <View style={styles.top}>
         <ThemedText style={styles.title}>{stepTitle}</ThemedText>
         <ThemedText style={styles.subtitle}>
@@ -59,7 +77,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
         </ThemedText>
       </View>
 
-      {/* Midtdel: swipekort og knapper */}
+      {/* Midtdel: swipekort */}
       <View style={styles.middle}>
         <PanGestureHandler
           onGestureEvent={({ nativeEvent }) => {
@@ -69,11 +87,27 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
         >
           <Animated.View style={[styles.card, animatedStyle]}>
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-              <ThemedText style={styles.question}>{question || t('MISSING_QUESTION')}</ThemedText>
+              {isPlainText ? (
+                <ThemedText style={styles.plainQuestion}>
+                  {question || t('MISSING_QUESTION')}
+                </ThemedText>
+              ) : (
+                <Markdown
+                  onLinkPress={handleLinkPress}
+                  style={{
+                    body: { fontSize: 18, textAlign: 'center', color: '#345641' },
+                    paragraph: { textAlign: 'center' },
+                    link: { color: '#345641', textDecorationLine: 'underline' },
+                  }}
+                >
+                  {question || t('MISSING_QUESTION')}
+                </Markdown>
+              )}
             </ScrollView>
           </Animated.View>
         </PanGestureHandler>
 
+        {/* Knapper */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.noButton}
@@ -95,14 +129,13 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
         </View>
       </View>
 
-      {/* Bunndel: progressbar */}
+      {/* Progressbar */}
       <View style={styles.bottom}>
         <ProgressBar
-  progress={progress}
-  accessibilityRole="progressbar"
-  accessibilityValue={{ min: 0, max: 100, now: progress }}
-/>
-
+          progress={progress}
+          accessibilityRole="progressbar"
+          accessibilityValue={{ min: 0, max: 100, now: progress }}
+        />
       </View>
     </View>
   );
@@ -148,11 +181,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
   },
-  question: {
+  plainQuestion: {
     fontSize: 18,
     textAlign: 'center',
-    maxWidth: '95%',
-    alignSelf: 'center',
+    color: '#345641',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -206,6 +238,8 @@ const styles = StyleSheet.create({
 });
 
 export default Questions;
+
+
 
 
 

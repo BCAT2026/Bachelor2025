@@ -43,7 +43,7 @@ const decisionTreeDataEN = [
     {
       id: 'q4',
       step: 1,
-      question: 'Are there concerns around eating behaviours or physique/body image anxiety?',
+      question: 'Are there concerns around eating behaviours or physique/body image anxiety? If there is uncertainty about whether concerns are present, an assessment should be made using one of the following resources: [EDE-Q](pdf:ede-q_EN.pdf), [ADE](pdf:ADE_en.pdf) or [BAS-2](pdf:BAS-2_en.pdf).',
       options: [
         { label: 'Yes', next: 'q5' },
         { label: 'No', next: 'q6' },
@@ -276,7 +276,7 @@ const decisionTreeDataEN = [
         id: 'q17',
         step: 3,
         question:
-          'Has the most appropriate method been chosen – please see table for an overview? As a general rule DXA or skinfold measures are recommended for athletes.',
+          'Has the most appropriate method been chosen? As a general rule DXA or skinfold measures are recommended for athletes. [See table for an overview](pdf:metodetabell.pdf)',
         options: [
           {
             label: 'Yes',
@@ -291,7 +291,7 @@ const decisionTreeDataEN = [
       {
         id: 'q18',
         step: 3,
-        question: 'Is there equipment for a more appropriate method available?',
+        question: 'Is there equipment for a more appropriate method available? [See table for an overview](pdf:metodetabell.pdf)',
         visibleIf: {
           previousQuestion: 'q17',
           expectedAnswer: 'No',
@@ -307,7 +307,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
-              'Proceed with caution and ensure that all control measures are taken and results are considered in context with the method limitations. Seek access to more appropriate methods moving forward.\n\nThis includes standardizing preparations, calibrating equipment, and establishing clear procedures for measurement and analysis.',
+              'Proceed with caution and ensure that all control measures are taken and results are considered in context with the method limitations. Seek access to more appropriate methods moving forward.\n\nThis includes standardizing preparations, calibrating equipment, and establishing clear procedures for measurement and analysis. [See table for an overview](pdf:metodetabell.pdf)',
             next: 'q19',
           },
         ],
@@ -370,7 +370,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with the measurement unless you are following a standardised protocol which is in place.\n\nFor DXA we recommend the following procedures: (see Table 3 and 4).',
+              'Do not proceed with the measurement unless you are following a standardised protocol which is in place.\n\nFor DXA we recommend the following procedures: [DXA](pdf:dxa.pdf). See table 3 and 4 specifically.',
           },
         ],
       },
@@ -421,7 +421,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
-              'Proceed with caution and find out this error as soon as possible in order to interpret results appropriately.',
+              'Proceed with caution and find this precision error as soon as possible in order to interpret results appropriately. [Methods table](pdf:metodetabell.pdf)',
             next: 'q25',
           },
         ],

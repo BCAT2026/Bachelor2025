@@ -43,7 +43,7 @@ const decisionTreeDataNO = [
   {
     id: 'q4',
     step: 1,
-    question: 'Er det bekymringer knyttet til spiseatferd eller negativt kroppsbilde?',
+    question: 'Er det bekymringer knyttet til spiseatferd eller negativt kroppsbilde? Ved usikkerhet om det foreligger bekymringer, bør det gjøres en vurdering ved hjelp av én av følgende ressurser: [EDE-Q](pdf:ede-q_NO.pdf), [ADE](pdf:ADE_en.pdf) eller [BAS-2](pdf:BAS-2_no.pdf)',
     options: [
       { label: 'Ja', next: 'q5' },
       { label: 'Nei', next: 'q6' },
@@ -276,7 +276,7 @@ const decisionTreeDataNO = [
     id: 'q17',
     step: 3,
     question:
-      'Er den mest egnede metoden valgt – se tabell (metodetabell) for oversikt. Som hovedregel anbefales DXA eller måling med kaliperklype/hudfoldtykkelse for utøvere.',
+      'Er den mest egnede metoden valgt? Som hovedregel anbefales DXA eller måling med kaliperklype/hudfoldtykkelse for utøvere. [Se metodetabell for oversikt](pdf:metodetabell.pdf)',
     options: [
       {
         label: 'Ja',
@@ -291,7 +291,7 @@ const decisionTreeDataNO = [
   {
     id: 'q18',
     step: 3,
-    question: 'Er det tilgjengelig utstyr for en mer egnet metode?',
+    question: 'Er det tilgjengelig utstyr for en mer egnet metode?  [Se metodetabell for oversikt](pdf:metodetabell.pdf)',
     visibleIf: {
       previousQuestion: 'q17',
       expectedAnswer: 'Nei',
@@ -307,7 +307,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'yellow',
         feedbackMessage:
-          'Gå videre med forsiktighet. Sørg for at nødvendige tiltak er på plass, og at resultatene vurderes i lys av metodens begrensninger. Forsøk å skaffe tilgang til bedre metode for fremtidige målinger.\n\nDette innebærer blant annet standardisering av forberedelser, kalibrering av utstyr, samt tydelige prosedyrer for måling og analyse.',
+          'Gå videre med forsiktighet. Sørg for at nødvendige tiltak er på plass, og at resultatene vurderes i lys av metodens begrensninger. Forsøk å skaffe tilgang til bedre metode for fremtidige målinger.\n\nDette innebærer blant annet standardisering av forberedelser, kalibrering av utstyr, samt tydelige prosedyrer for måling og analyse.  [Se metodetabell for oversikt](pdf:metodetabell.pdf)',
         next: 'q19',
       },
     ],
@@ -369,7 +369,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gjennomfør vurderingen med mindre du følger en etablert standardisert protokoll.\n\nVed DXA anbefaler vi følgende prosedyrer: (lenke → se tabell 3 og 4).',
+          'Ikke gjennomfør vurderingen med mindre du følger en etablert standardisert protokoll.\n\nVed DXA anbefaler vi følgende prosedyrer: [DXA](pdf:dxa.pdf). Se spesielt tabell 3 og 4.',
       },
     ],
   },
