@@ -130,7 +130,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
       </View>
 
       {/* Progressbar */}
-      <View style={styles.bottom}>
+      <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
         <ProgressBar
           progress={progress}
           accessibilityRole="progressbar"
@@ -140,6 +140,9 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
     </View>
   );
 };
+
+const BUTTON_SIZE = SCREEN_WIDTH * 0.28;
+const MIN_BUTTON_SIZE = 80;
 
 const styles = StyleSheet.create({
   container: {
@@ -189,8 +192,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 40,
     alignItems: 'center',
+    gap: 40,
     marginTop: 30,
     marginBottom: 10,
   },
@@ -198,8 +201,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderColor: '#345641',
     borderWidth: 2,
-    width: 100,
-    height: 100,
+    width: Math.max(BUTTON_SIZE, MIN_BUTTON_SIZE),
+    height: Math.max(BUTTON_SIZE, MIN_BUTTON_SIZE),
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -208,8 +211,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#345641',
     borderColor: '#345641',
     borderWidth: 2,
-    width: 100,
-    height: 100,
+    width: Math.max(BUTTON_SIZE, MIN_BUTTON_SIZE),
+    height: Math.max(BUTTON_SIZE, MIN_BUTTON_SIZE),
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -234,10 +237,12 @@ const styles = StyleSheet.create({
   },
   bottom: {
     marginTop: 10,
+    alignItems: 'center',
   },
 });
 
 export default Questions;
+
 
 
 

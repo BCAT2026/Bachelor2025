@@ -32,7 +32,7 @@ export default function ProgressTips() {
 
   return (
     <PanGestureHandler onEnded={({ nativeEvent }) => handleGestureEnd(nativeEvent)}>
-      <View style={[styles.container, { paddingTop: insets.top + 10, paddingBottom: insets.bottom + 20 }]}>
+      <View style={[styles.container, { paddingTop: insets.top + 10 }]}>
         {/* TOPP */}
         <View style={styles.top}>
           <Header />
@@ -95,7 +95,7 @@ export default function ProgressTips() {
         </View>
 
         {/* BUNN */}
-        <View style={styles.bottom}>
+        <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
           <ProgressBar
             progress={0}
             accessibilityRole="progressbar"

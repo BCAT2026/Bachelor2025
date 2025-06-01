@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Dimensions } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -10,6 +10,8 @@ import TipsBox from '@/components/TipsBox';
 import Header from '@/components/Header';
 import SwipeAnimation from '@/components/SwipeAnimation';
 import NextButton from '@/components/NextButton';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 export default function SwipeTips() {
   const router = useRouter();
@@ -32,16 +34,17 @@ export default function SwipeTips() {
 
   return (
     <PanGestureHandler onEnded={({ nativeEvent }) => handleGestureEnd(nativeEvent)}>
-      <ThemedView style={[styles.container, { paddingBottom: insets.bottom || 20 }]}>
+      <ThemedView style={styles.container}>
+        {/* TOPP */}
         <View style={[styles.top, { paddingTop: insets.top || 10 }]}>
           <Header />
         </View>
 
+        {/* MIDT + SCROLL */}
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {/* MIDT */}
           <View style={styles.middle}>
             <ThemedText style={styles.title} accessibilityRole="header">
               {t('TITLE_GUIDELINES')}
@@ -50,9 +53,13 @@ export default function SwipeTips() {
             <SwipeAnimation accessibilityLabel={t('ALT_SWIPEHAND')} />
           </View>
 
-          {/* JA/NEI */}
+          {/* JA / NEI */}
           <View style={styles.buttonContainer}>
-            <View style={styles.noButton} accessibilityRole="button" accessibilityLabel={t('NO')}>
+            <View
+              style={styles.noButton}
+              accessibilityRole="button"
+              accessibilityLabel={t('NO')}
+            >
               <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
             </View>
             <View style={styles.separator} />
@@ -68,7 +75,7 @@ export default function SwipeTips() {
         </ScrollView>
 
         {/* BUNN */}
-        <View style={styles.bottom}>
+        <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
           <NextButton onPress={handleNext} text={t('NEXT')} accessibilityRole="button" />
         </View>
       </ThemedView>
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   middle: {
     gap: 0,
@@ -107,6 +114,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     gap: 40,
     marginTop: 0,
     marginBottom: 32,
@@ -115,8 +123,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderColor: PRIMARY,
     borderWidth: 2,
-    width: 100,
-    height: 100,
+    width: screenWidth * 0.28,
+    height: screenWidth * 0.28,
+    minWidth: 80,
+    minHeight: 80,
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -125,8 +135,10 @@ const styles = StyleSheet.create({
     backgroundColor: PRIMARY,
     borderColor: PRIMARY,
     borderWidth: 2,
-    width: 100,
-    height: 100,
+    width: screenWidth * 0.28,
+    height: screenWidth * 0.28,
+    minWidth: 80,
+    minHeight: 80,
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -154,6 +166,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
 });
+
 
 
 

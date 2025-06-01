@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LanguageSelector from '../../components/LanguageSelector';
 import { ThemedView } from '../../components/ThemedView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -13,6 +14,7 @@ export default function IndexScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const [modalVisible, setModalVisible] = useState(false);
+  const insets = useSafeAreaInsets();
 
   return (
     <ThemedView style={styles.container}>
@@ -48,7 +50,7 @@ export default function IndexScreen() {
       </View>
 
       {/* BUNN */}
-      <View style={styles.bottom}>
+      <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
         <TouchableOpacity
           style={styles.startButton}
           onPress={() => router.push({ pathname: '/swipeTips', params: { reset: 'true' } })}
@@ -117,7 +119,8 @@ const styles = StyleSheet.create({
   logo: {
     width: screenWidth * 0.8,
     height: screenWidth * 0.8,
-    marginBottom: 60,
+    maxWidth: 300,
+    marginBottom: 20,
   },
   bottom: {
     alignItems: 'center',

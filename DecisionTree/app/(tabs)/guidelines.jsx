@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const CIRCLE_SIZE = Math.max(SCREEN_WIDTH * 0.1, 32);
+const SMALL_CIRCLE = Math.max(SCREEN_WIDTH * 0.08, 28);
 
 const GuidelinesScreen = () => {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -13,6 +25,7 @@ const GuidelinesScreen = () => {
   const [selectedKey, setSelectedKey] = useState(null);
   const [selectedTitleKey, setSelectedTitleKey] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -40,12 +53,10 @@ const GuidelinesScreen = () => {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-        {/* TOPP */}
         <View style={styles.top}>
           <ThemedText style={styles.title}>{t('GUIDELINES_TITLE')}</ThemedText>
         </View>
 
-        {/* MIDT */}
         <View style={styles.middle}>
           <View style={styles.guidelineTable}>
             {Array.from({ length: 4 }, (_, i) => (
@@ -66,7 +77,7 @@ const GuidelinesScreen = () => {
                     >
                       <View style={[
                         styles.guidelineNumberCircle,
-                        { backgroundColor: 'white', borderColor: fillColor, borderWidth: 5 }
+                        { backgroundColor: 'white', borderColor: fillColor, borderWidth: 4 },
                       ]}>
                         <ThemedText style={styles.guidelineNumberText}>{guideline.number}</ThemedText>
                       </View>
@@ -122,7 +133,7 @@ const GuidelinesScreen = () => {
               return (
                 <TouchableOpacity
                   key={`number-${index}`}
-                  style={[styles.numberCircle, { position: 'absolute', left: x - 20, top: y - 20 }]}
+                  style={[styles.numberCircle, { position: 'absolute', left: x - CIRCLE_SIZE / 2, top: y - CIRCLE_SIZE / 2 }]}
                   onPress={() => handleNumberPress(number)}
                 >
                   <ThemedText style={styles.numberText}>{number}</ThemedText>
@@ -132,8 +143,7 @@ const GuidelinesScreen = () => {
           </View>
         </View>
 
-        {/* BUNN */}
-        <View style={styles.bottom}>
+        <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
           <Modal
             animationType="fade"
             transparent={true}
@@ -145,9 +155,11 @@ const GuidelinesScreen = () => {
                 <ThemedText style={styles.modalTitle}>
                   {selectedNumber}. {selectedTitleKey ? t(selectedTitleKey) : ''}
                 </ThemedText>
-                <ThemedText style={styles.modalBody}>
-                  {selectedKey ? t(selectedKey) : ''}
-                </ThemedText>
+                <ScrollView style={{ maxHeight: '60%' }} contentContainerStyle={{ paddingBottom: 10 }}>
+                  <ThemedText style={styles.modalBody}>
+                    {selectedKey ? t(selectedKey) : ''}
+                  </ThemedText>
+                </ScrollView>
                 <TouchableOpacity
                   onPress={() => setModalVisible(false)}
                   style={styles.closeButton}
@@ -194,19 +206,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderColor: '#ccc',
+    flexWrap: 'wrap',
   },
   guidelineCell: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 2,
+    paddingVertical: 4,
     paddingHorizontal: 5,
     gap: 5,
+    minWidth: '50%',
   },
   guidelineNumberCircle: {
-    width: 35,
-    height: 35,
-    borderRadius: 20,
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 2,
@@ -233,9 +247,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   numberCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -270,6 +284,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_600SemiBold',
     color: '#2E443E',
     marginBottom: 15,
+    textAlign: 'center',
   },
   modalBody: {
     fontSize: 16,
@@ -291,6 +306,7 @@ const styles = StyleSheet.create({
 });
 
 export default GuidelinesScreen;
+
 
 
 
