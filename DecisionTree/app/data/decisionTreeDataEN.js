@@ -29,7 +29,7 @@ const decisionTreeDataEN = [
     {
       id: 'q3',
       step: 1,
-      question: 'Is the athlete competing at tier 3 or above?',
+      question: 'Is the athlete competing at Tier 3 or above?',
       options: [
         { label: 'Yes', next: 'q4' },
         {
@@ -62,14 +62,14 @@ const decisionTreeDataEN = [
         {
           label: 'No',
           feedbackType: 'red',
-          feedbackMessage: 'It is not recommended to measure BC.',
+          feedbackMessage: 'It is not recommended to measure BC, as athletes with such health challenges require supervision by medical professionals.',
         },
       ],
     },
     {
       id: 'q6',
       step: 1,
-      question: 'Does the athlete have appropriate access to members of an athlete health and performance team?\n \nMinimum: Qualified, experienced sports dietitian/nutritionist, sports physiologist/strength coach, psychologist and sports medicine, physician.',
+      question: 'Does the athlete have appropriate access to members of an athlete health and performance team?\n \nMinimum: Experienced sports dietitian/nutritionist, sports physiologist/strength coach, psychologist and sports medicine physician.',
       options: [
         { label: 'Yes', next: 'q8' },
         { label: 'No', next: 'q7' },
@@ -95,7 +95,7 @@ const decisionTreeDataEN = [
           label: 'No',
           feedbackType: 'red',
           feedbackMessage:
-            'If athletes cannot access the support or services of the individuals above, BC assessment or manipulation is not recommended.',
+            'If athletes cannot access the support or services of the professionals above, BC assessment or manipulation is not recommended.',
         },
       ],
     },
@@ -104,7 +104,12 @@ const decisionTreeDataEN = [
       step: 1,
       question: 'Is there a sound and supported rationale for assessment/manipulation of BC, without causing harm to the athlete?',
       options: [
-        { label: 'Yes', next: 'q9' },
+        {
+          label: 'Yes',
+          feedbackType: 'green',
+          feedbackMessage: 'Proceed to the next step.',
+          next: 't1',
+        },
         {
           label: 'No',
           feedbackType: 'red',
@@ -114,53 +119,20 @@ const decisionTreeDataEN = [
       ],
     },
     {
-      id: 'q9',
-      step: 1,
-      question: 'Have you assessed athlete readiness?',
-      options: [
-        { label: 'Yes', next: 'q10' },
-        {
-          label: 'No',
-          feedbackType: 'red',
-          feedbackMessage:
-            'Either assess athlete readiness and revisit this question or do not proceed with any BC measurement.',
-        },
-      ],
-    },
-    {
-      id: 'q10',
-      step: 1,
-      question: 'Are there concerns regarding eating behaviour, history of Eds, body image/physique anxiety?',
-      options: [
-        {
-          label: 'Yes',
-          feedbackType: 'red',
-          feedbackMessage:
-            'It is not recommended to measure BC, and it should only be considered for medical purposes. Concerns should be raised with the relevant support staff and the athlete should be signposted to appropriate support.',
-        },
-        {
-          label: 'No',
-          feedbackType: 'green',
-          feedbackMessage: 'Proceed to the next stage.',
-          next: 't1',
-        },
-      ],
-    },
-    {
       id: 't1',
       isTransition: true,
       message: 'Step 1 is complete!\n \nYou may now proceed to Step 2.',
-      next: 'q11',
+      next: 'q9',
     },
 
     {
-        id: 'q11',
+        id: 'q9',
         step: 2,
-        question: 'Has the BC assessment process been outlined clearly to the athlete?',
+        question: 'Has the athlete been clearly informed about the measurement process and given the opportunity to ask questions?',
         options: [
           {
             label: 'Yes',
-            next: 'q12',
+            next: 'q10',
           },
           {
             label: 'No',
@@ -171,26 +143,26 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q12',
+        id: 'q10',
         step: 2,
-        question: 'Is the BC assessment scheduled alongside or in close proximity to other relevant assessments?',
+        question: 'Is the BC assessment scheduled alongside or in close proximity to other relevant health and/or performance assessments?',
         options: [
           {
             label: 'Yes',
-            next: 'q14',
+            next: 'q12',
           },
           {
             label: 'No',
-            next: 'q13',
+            next: 'q11',
           },
         ],
       },
       {
-        id: 'q13',
+        id: 'q11',
         step: 2,
         question: 'Is this the only assessment you do?',
         visibleIf: {
-          previousQuestion: 'q12',
+          previousQuestion: 'q10',
           expectedAnswer: 'No',
         },
         options: [
@@ -205,56 +177,56 @@ const decisionTreeDataEN = [
             feedbackType: 'yellow',
             feedbackMessage:
               'It is recommended that other relevant assessments are conducted at the same time to give context to the BC measurements. However, you could use the closest timepoint for context if appropriate.',
-            next: 'q14',
+            next: 'q12',
           },
         ],
       },
       {
-        id: 'q14',
+        id: 'q12',
         step: 2,
         question:
           'Does the athlete and their support team receive education on BC, nutrition, training and the interactions among these areas?',
         options: [
           {
             label: 'Yes',
-            next: 'q15',
+            next: 'q13',
           },
           {
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
               'Education in these areas is recommended to develop understanding of the role of BC and to facilitate appropriate use of this metric. This should be delivered prior to BC assessments being made.',
-            next: 'q15',
+            next: 'q13',
           },
         ],
       },
       {
-        id: 'q15',
+        id: 'q13',
         step: 2,
         question:
-          'Does the athlete retain the choice, at all times, of whether the BC assessment is conducted with no repercussions?',
+          'Does the athlete retain the choice, at all times, of whether the BC assessment is conducted with no repercussions?\n \nExamples of a lack of choice may include the athlete being removed from the team, being excluded from upcoming competitions, or experiencing negative attention or neglect from coaches.',
         options: [
           {
             label: 'Yes',
-            next: 'q16',
+            next: 'q14',
           },
           {
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Athletes should always retain the choice of whether the BC assessment is conducted. If they do not have a choice, the assessment should not be conducted.\n\nExamples of a lack of choice may include the athlete being removed from the team, being excluded from upcoming competitions, or experiencing negative attention or neglect from coaches.',
+              'Athletes should always retain the choice of whether the BC assessment is conducted. If they do not have a choice, the assessment should not be conducted.',
           },
         ],
       },
       {
-        id: 'q16',
+        id: 'q14',
         step: 2,
         question: 'Have you obtained and documented explicit written consent from the athlete?',
         options: [
           {
             label: 'Yes',
             feedbackType: 'green',
-            feedbackMessage: 'Proceed to the next stage.',
+            feedbackMessage: 'Proceed to the next step.',
             next: 't2',
           },
           {
@@ -269,31 +241,31 @@ const decisionTreeDataEN = [
         id: 't2',
         isTransition: true,
         message: 'Step 2 is complete!\n \nYou may now proceed to Step 3.',
-        next: 'q17',
+        next: 'q15',
       },
 
       {
-        id: 'q17',
+        id: 'q15',
         step: 3,
         question:
           'Has the most appropriate method been chosen? As a general rule DXA or skinfold measures are recommended for athletes. [See table for an overview](pdf:metodetabell.pdf)',
         options: [
           {
             label: 'Yes',
-            next: 'q19',
+            next: 'q17',
           },
           {
             label: 'No',
-            next: 'q18',
+            next: 'q16',
           },
         ],
       },
       {
-        id: 'q18',
+        id: 'q16',
         step: 3,
         question: 'Is there equipment for a more appropriate method available? [See table for an overview](pdf:metodetabell.pdf)',
         visibleIf: {
-          previousQuestion: 'q17',
+          previousQuestion: 'q15',
           expectedAnswer: 'No',
         },
         options: [
@@ -308,12 +280,12 @@ const decisionTreeDataEN = [
             feedbackType: 'yellow',
             feedbackMessage:
               'Proceed with caution and ensure that all control measures are taken and results are considered in context with the method limitations. Seek access to more appropriate methods moving forward.\n\nThis includes standardizing preparations, calibrating equipment, and establishing clear procedures for measurement and analysis. [See table for an overview](pdf:metodetabell.pdf)',
-            next: 'q19',
+            next: 'q17',
           },
         ],
       },
       {
-        id: 'q19',
+        id: 'q17',
         step: 3,
         question:
           'Is the person taking the measurement suitably trained for the specific method chosen and do you have the required professional skills to navigate psychological sensitivities around BC?',
@@ -321,7 +293,7 @@ const decisionTreeDataEN = [
           {
             label: 'Yes',
             feedbackType: 'green',
-            feedbackMessage: 'Proceed to the next stage.',
+            feedbackMessage: 'Proceed to the next step.',
             next: 't3',
           },
           {
@@ -336,35 +308,18 @@ const decisionTreeDataEN = [
         id: 't3',
         isTransition: true,
         message: 'Step 3 is complete!\n \nYou may now proceed to Step 4.',
-        next: 'q20',
+        next: 'q18',
       },
 
       {
-        id: 'q20',
+        id: 'q18',
         step: 4,
         question:
-          'Has the athlete been provided with information on the procedures for the specific method chosen and had the opportunity to ask questions before the assessment?',
+          'Are you following a standardised protocol?',
         options: [
           {
             label: 'Yes',
-            next: 'q21',
-          },
-          {
-            label: 'No',
-            feedbackType: 'red',
-            feedbackMessage:
-              'Do not proceed with the measurement until the athlete has been informed of what it involves and has had the chance to ask any questions.',
-          },
-        ],
-      },
-      {
-        id: 'q21',
-        step: 4,
-        question: 'Are you following a standardised protocol?',
-        options: [
-          {
-            label: 'Yes',
-            next: 'q22',
+            next: 'q19',
           },
           {
             label: 'No',
@@ -375,30 +330,31 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q22',
+        id: 'q19',
         step: 4,
         question: 'Has the athlete been given the option to have a chaperone of their choice with them during the assessment?',
         options: [
           {
             label: 'Yes',
-            next: 'q23',
+            next: 'q20',
           },
           {
             label: 'No',
-            feedbackType: 'red',
+            feedbackType: 'yellow',
             feedbackMessage:
-              'Do not proceed with the measurement unless the athlete has been given this option.',
+              'The measurement can be carried out if the athlete still wishes to proceed. Next time, the option to bring a support person should be clearly communicated in advance.',
+            next: 'q20',
           },
         ],
       },
       {
-        id: 'q23',
+        id: 'q20',
         step: 4,
         question: 'Will the assessment be conducted in a private space with controlled access?',
         options: [
           {
             label: 'Yes',
-            next: 'q24',
+            next: 'q21',
           },
           {
             label: 'No',
@@ -409,50 +365,50 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q24',
+        id: 'q21',
         step: 4,
         question: 'Do you know the precision error of measurement?',
         options: [
           {
             label: 'Yes',
-            next: 'q25',
+            next: 'q22',
           },
           {
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
               'Proceed with caution and find this precision error as soon as possible in order to interpret results appropriately. [Methods table](pdf:metodetabell.pdf)',
-            next: 'q25',
+            next: 'q22',
           },
         ],
       },
       {
-        id: 'q25',
+        id: 'q22',
         step: 4,
         question: 'Do you feel sufficient time has been scheduled for the assessment?',
         options: [
           {
             label: 'Yes',
-            next: 'q26',
+            next: 'q23',
           },
           {
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
-              'Proceed with caution and ensure that there is enough time for the assessment to be carried out according to the protocol, and that there is time for any discussions that arise.',
-            next: 'q26',
+              'Proceed with caution and ensure that there is enough time for the assessment to be carried out according to the protocol, and that there is time for any discussions that arise. Avoid commenting on or disclosing the results while performing the measurement.',
+            next: 'q23',
           },
         ],
       },
       {
-        id: 'q26',
+        id: 'q23',
         step: 4,
         question: 'Are there processes in place to ensure data is treated, handled and stored confidentially as medical data?',
         options: [
           {
             label: 'Yes',
             feedbackType: 'green',
-            feedbackMessage: 'Proceed to the next stage.',
+            feedbackMessage: 'Proceed to the next step.',
             next: 't4',
           },
           {
@@ -467,45 +423,45 @@ const decisionTreeDataEN = [
         id: 't4',
         isTransition: true,
         message: 'Step 4 is complete!\n \nYou may now proceed to Step 5.',
-        next: 'q27',
+        next: 'q25',
       },
        
       {
-        id: 'q27',
+        id: 'q24',
         step: 5,
         question:
           'Has the athlete been made aware that results will not be discussed during data collection, but that time is required to interpret the data appropriately?',
         options: [
           {
             label: 'Yes',
-            next: 'q28',
+            next: 'q25',
           },
           {
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
-              'Proceed with caution. Communicate to the athlete that time is needed to interpret the data and arrange a time for follow-up.',
-            next: 'q28',
+              'Proceed with caution. Communicate to the athlete that time is needed to interpret the data and arrange a time for follow-up. Avoid commenting on or disclosing the results while performing the measurement.',
+            next: 'q25',
           },
         ],
       },
       {
-        id: 'q28',
+        id: 'q25',
         step: 5,
         question:
-          'Before the results are communicated: Will the results be interpreted and analysed with other relevant measurements and precision error within the athlete health and performance team?',
+          'Before the results are communicated, will they be interpreted and analyzed alongside other relevant measurements and precision data, by the members of the support teamm whom the athlete has authorized to access the results?',
         options: [
           {
             label: 'Yes',
             feedbackType: 'green',
-            feedbackMessage: 'Proceed to the next stage.',
+            feedbackMessage: 'Proceed to the next step.',
             next: 't5',
           },
           {
             label: 'No',
-            feedbackType: 'red',
+            feedbackType: 'yellow',
             feedbackMessage:
-              'Do not conduct the assessment if this level of interpretation and analysis is not possible.',
+              'Without this assessment, the data may be misinterpreted, potentially leading to negative consequenses for the athlete.\n \nEnsure that the selected members of the support team, who have been granted access with the athlete`s consent, are involved in the process.',
           },
         ],
       },
@@ -513,18 +469,18 @@ const decisionTreeDataEN = [
         id: 't5',
         isTransition: true,
         message: 'Step 5 is complete!\n \nYou may now proceed to Step 6.',
-        next: 'q29',
+        next: 'q26',
       },
       
       {
-        id: 'q29',
+        id: 'q26',
         step: 6,
         question:
           'Are the data presented in an accessible format that integrates precision error data alongside previous individual results (if available)?',
         options: [
           {
             label: 'Yes',
-            next: 'q30',
+            next: 'q27',
           },
           {
             label: 'No',
@@ -535,21 +491,21 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q30',
+        id: 'q27',
         step: 6,
-        question: 'Are normative reference values used?',
+        question: 'Are normative reference values applied to other BC-parameters beyond bone mass?',
         options: [
-          {
-            label: 'No',
-            feedbackType: 'green',
-            feedbackMessage: 'Proceed to the next stage.',
-            next: 't6',
-          },
           {
             label: 'Yes',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not report the data until normative or reference values are removed.\n\nApart from bone mass (Z-score and T-score), there is little evidence to support the existence of universal optimal targets for fat mass and muscle mass in individuals.',
+              'Do not report the data until normative or reference values are removed.\n\nOther than bone mass (Z-score and T-score), there is little evidence to support the existence of universal optimal targets for fat mass and muscle mass in individuals.',
+          },
+           {
+            label: 'No',
+            feedbackType: 'green',
+            feedbackMessage: 'Proceed to the next step.',
+            next: 't6',
           },
         ],
       },
@@ -557,18 +513,18 @@ const decisionTreeDataEN = [
         id: 't6',
         isTransition: true,
         message: 'Step 6 is complete!\n \nYou may now proceed to Step 7.',
-        next: 'q31',
+        next: 'q28',
       },
       
       {
-        id: 'q31',
+        id: 'q28',
         step: 7,
         question:
-          'Do athletes have control of who can access their body composition (BC) assessment data?',
+          'Do athletes have control of who can access their BC assessment data?',
         options: [
           {
             label: 'Yes',
-            next: 'q32',
+            next: 'q29',
           },
           {
             label: 'No',
@@ -579,26 +535,26 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q32',
+        id: 'q29',
         step: 7,
         question:
           'Are results shared directly with the athlete and discussed with the most appropriate person in a private setting?',
         options: [
           {
             label: 'Yes',
-            next: 'q33',
+            next: 'q30',
           },
           {
             label: 'No',
             feedbackType: 'yellow',
             feedbackMessage:
               'Proceed with caution. Results should be shared directly with the athlete and in a private space with someone who has consent to see the results – usually a member of the health and performance team.',
-            next: 'q33',
+            next: 'q30',
           },
         ],
       },
       {
-        id: 'q33',
+        id: 'q30',
         step: 7,
         question:
           'Is a discussion to agree next steps planned with the athlete and relevant members of the athlete health and performance team?',
@@ -606,7 +562,7 @@ const decisionTreeDataEN = [
           {
             label: 'Yes',
             feedbackType: 'green',
-            feedbackMessage: 'Proceed to the next stage.',
+            feedbackMessage: 'Proceed to the next step.',
             next: 't7',
           },
           {
@@ -622,18 +578,18 @@ const decisionTreeDataEN = [
         id: 't7',
         isTransition: true,
         message: 'Step 7 is complete!\n \nYou may now proceed to Step 8.',
-        next: 'q34',
+        next: 'q31',
       },
       
       {
-        id: 'q34',
+        id: 'q31',
         step: 8,
         question:
           'Is there a clear and agreed timeline for BC monitoring that is aligned with the agreed intervention?',
         options: [
           {
             label: 'Yes',
-            next: 'q35',
+            next: 'q32',
           },
           {
             label: 'No',
@@ -644,30 +600,30 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q35',
+        id: 'q32',
         step: 8,
         question: 'Does the proposed number of assessments exceed 4–6 times per year?',
         options: [
-          {
-            label: 'No',
-            next: 'q36',
-          },
           {
             label: 'Yes',
             feedbackType: 'red',
             feedbackMessage:
               'Do not proceed with a higher number of assessments, unless there is specific reasoning. Reduce the number of assessments and align with the expected response.',
           },
+          {
+            label: 'No',
+            next: 'q33',
+          },
         ],
       },
       {
-        id: 'q36',
+        id: 'q33',
         step: 8,
         question: 'Does the athlete have support from relevant members of the athlete health and performance team?',
         options: [
           {
             label: 'Yes',
-            next: 'q37',
+            next: 'q34',
           },
           {
             label: 'No',
@@ -678,7 +634,7 @@ const decisionTreeDataEN = [
         ],
       },
       {
-        id: 'q37',
+        id: 'q34',
         step: 8,
         question: 'Is athlete readiness re-checked prior to each subsequent assessment?',
         options: [

@@ -90,7 +90,7 @@ const DecisionTreePage = () => {
     setAnswers(updatedAnswers);
 
     //Logg hvis siste spørsmål er fullført
-    if (currentNode.id === 'q37') {
+    if (currentNode.id === 'q34') {
       completedLogs('Brukeren har fullført hele beslutningstreet', 'Fullført');
     }
 
@@ -105,7 +105,7 @@ const DecisionTreePage = () => {
         const nextNode = decisionTreeData.find((n) => n.id === selectedOption.next);
         if (nextNode?.isTransition) {
           const referenceIndex = extractNumber(currentId);
-const progress = Math.round((referenceIndex / 37) * 100);
+const progress = Math.round((referenceIndex / 34) * 100);
 setLockedProgress(progress);
 setCurrentId(nextNode.id);
 
@@ -184,7 +184,7 @@ setCurrentId(nextNode.id);
     : currentId;
 
   const currentIndex = extractNumber(referenceId || 'q1');
-  const overallProgress = Math.round((currentIndex / 37) * 100);
+  const overallProgress = Math.round((currentIndex / 34) * 100);
 
   if (!currentNode) return null;
 

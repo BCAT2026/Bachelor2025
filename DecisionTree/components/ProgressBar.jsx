@@ -15,7 +15,7 @@ const generateShades = (steps = 8) => {
   });
 };
 
-const stepQuestionCounts = [10, 6, 3, 7, 2, 2, 3, 4];
+const stepQuestionCounts = [8, 6, 3, 6, 2, 2, 3, 4];
 
 const getStepProgress = (answeredCount) => {
   let totalAnswered = 0;
@@ -41,7 +41,7 @@ const getStepProgress = (answeredCount) => {
 
 const ProgressBar = ({ progress = 0, accessibilityRole, accessibilityValue }) => {
   const clampedProgress = Math.min(Math.max(progress, 0), 100);
-  const totalQuestions = 37;
+  const totalQuestions = 34;
   const answeredCount = Math.round((clampedProgress / 100) * totalQuestions);
   const segmentProgress = getStepProgress(answeredCount);
   const shades = generateShades(8);

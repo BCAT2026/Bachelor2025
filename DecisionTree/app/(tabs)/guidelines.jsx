@@ -155,11 +155,16 @@ const GuidelinesScreen = () => {
                 <ThemedText style={styles.modalTitle}>
                   {selectedNumber}. {selectedTitleKey ? t(selectedTitleKey) : ''}
                 </ThemedText>
-                <ScrollView style={{ maxHeight: '60%' }} contentContainerStyle={{ paddingBottom: 10 }}>
+
+                <ScrollView
+                  style={{ maxHeight: '70%' }}
+                  contentContainerStyle={{ paddingBottom: 30 }}
+                >
                   <ThemedText style={styles.modalBody}>
                     {selectedKey ? t(selectedKey) : ''}
                   </ThemedText>
                 </ScrollView>
+
                 <TouchableOpacity
                   onPress={() => setModalVisible(false)}
                   style={styles.closeButton}
@@ -273,10 +278,11 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    paddingVertical: 25,
-    paddingHorizontal: 30,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
     borderRadius: 15,
-    width: '80%',
+    width: '85%',
     alignItems: 'center',
   },
   modalTitle: {
@@ -290,13 +296,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2E443E',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 40,
   },
   closeButton: {
     backgroundColor: '#2E443E',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
+    marginTop: 10,
   },
   closeButtonText: {
     color: 'white',
