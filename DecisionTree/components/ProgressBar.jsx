@@ -15,10 +15,36 @@ const generateShades = (steps = 8) => {
   });
 };
 
-const ProgressBar = ({ progress, totalSteps = 8, accessibilityRole, accessibilityValue }) => {
+const stepQuestionCounts = [10, 6, 3, 7, 2, 2, 3, 4];
+
+const getStepProgress = (answeredCount) => {
+  let totalAnswered = 0;
+  let progressSegments = [];
+
+  for (let i = 0; i < stepQuestionCounts.length; i++) {
+    const stepTotal = stepQuestionCounts[i];
+    const remaining = answeredCount - totalAnswered;
+
+    if (remaining <= 0) {
+      progressSegments.push(0);
+    } else if (remaining >= stepTotal) {
+      progressSegments.push(1);
+    } else {
+      progressSegments.push(remaining / stepTotal);
+    }
+
+    totalAnswered += stepTotal;
+  }
+
+  return progressSegments;
+};
+
+const ProgressBar = ({ progress = 0, accessibilityRole, accessibilityValue }) => {
   const clampedProgress = Math.min(Math.max(progress, 0), 100);
-  const segmentWidth = 100 / totalSteps;
-  const shades = generateShades(totalSteps);
+  const totalQuestions = 37;
+  const answeredCount = Math.round((clampedProgress / 100) * totalQuestions);
+  const segmentProgress = getStepProgress(answeredCount);
+  const shades = generateShades(8);
 
   return (
     <View
@@ -29,11 +55,9 @@ const ProgressBar = ({ progress, totalSteps = 8, accessibilityRole, accessibilit
       <View style={styles.barBackground}>
         <View style={styles.shadeContainer}>
           {shades.map((color, index) => {
-            const segmentStart = index * segmentWidth;
-            const segmentEnd = segmentStart + segmentWidth;
-            const fill = Math.max(0, Math.min(clampedProgress - segmentStart, segmentWidth));
-            const fillPercent = (fill / segmentWidth) * 100;
-            const isLast = index === totalSteps - 1;
+            const fillPercent = segmentProgress[index] * 100;
+
+            const isLast = index === shades.length - 1;
             const borderRadius = {
               borderTopLeftRadius: index === 0 ? 15 : 0,
               borderBottomLeftRadius: index === 0 ? 15 : 0,
@@ -99,8 +123,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 15,
   },
-  
 });
 
 export default ProgressBar;
+
 

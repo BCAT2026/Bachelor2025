@@ -208,18 +208,21 @@ setCurrentId(nextNode.id);
   const stepTitle = stepTitles[stepNumber]?.[lang] ?? '';
 
   return (
-    <ParallaxScrollView>
-      <Header onBackPress={handleGoBack} />
-      <Step
-        stepNumber={stepNumber}
-        totalSteps={8}
-        stepTitle={stepTitle}
-        question={currentNode.question}
-        onAnswer={handleAnswer}
-        progress={overallProgress}
-      />
-    </ParallaxScrollView>
-  );
+  <ParallaxScrollView>
+    <Header onBackPress={handleGoBack} />
+    <Step
+      stepNumber={stepNumber}
+      totalSteps={8}
+      stepTitle={stepTitle}
+      question={currentNode.question}
+      questionId={currentNode.id}
+      onAnswer={handleAnswer}
+      progress={overallProgress}
+      answeredIds={Object.keys(answers)}
+    />
+  </ParallaxScrollView>
+);
+
 };
 
 export default DecisionTreePage;

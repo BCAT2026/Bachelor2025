@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  runOnJS,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { useTranslation } from 'react-i18next';
 import ProgressBar from './ProgressBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -18,7 +12,16 @@ import { useRouter } from 'expo-router';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
-const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, progress }) => {
+const Questions = ({
+  stepTitle,
+  stepNumber,
+  totalSteps,
+  question,
+  onAnswer,
+  progress,
+  questionId,
+  answeredIds = [],
+}) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -69,36 +72,24 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom + 20 }]}>
-      {/* Toppdel: steginfo */}
       <View style={styles.top}>
         <ThemedText style={styles.title}>{stepTitle}</ThemedText>
-        <ThemedText style={styles.subtitle}>
-          {stepNumber} {t('OF')} {totalSteps}
-        </ThemedText>
+        <ThemedText style={styles.subtitle}>{stepNumber} {t('OF')} {totalSteps}</ThemedText>
       </View>
 
-      {/* Midtdel: swipekort */}
       <View style={styles.middle}>
         <PanGestureHandler
-          onGestureEvent={({ nativeEvent }) => {
-            translateX.value = nativeEvent.translationX;
-          }}
+          onGestureEvent={({ nativeEvent }) => { translateX.value = nativeEvent.translationX; }}
           onEnded={({ nativeEvent }) => handleGestureEnd(nativeEvent)}
         >
           <Animated.View style={[styles.card, animatedStyle]}>
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
               {isPlainText ? (
-                <ThemedText style={styles.plainQuestion}>
-                  {question || t('MISSING_QUESTION')}
-                </ThemedText>
+                <ThemedText style={styles.plainQuestion}>{question || t('MISSING_QUESTION')}</ThemedText>
               ) : (
                 <Markdown
                   onLinkPress={handleLinkPress}
-                  style={{
-                    body: { fontSize: 18, textAlign: 'center', color: '#345641' },
-                    paragraph: { textAlign: 'center' },
-                    link: { color: '#345641', textDecorationLine: 'underline' },
-                  }}
+                  style={{ body: { fontSize: 18, textAlign: 'center', color: '#345641' }, paragraph: { textAlign: 'center' }, link: { color: '#345641' } }}
                 >
                   {question || t('MISSING_QUESTION')}
                 </Markdown>
@@ -107,32 +98,24 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
           </Animated.View>
         </PanGestureHandler>
 
-        {/* Knapper */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.noButton}
-            onPress={() => handleButtonPress(false)}
-            accessibilityRole="button"
-          >
+          <TouchableOpacity style={styles.noButton} onPress={() => handleButtonPress(false)} accessibilityRole="button">
             <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
           </TouchableOpacity>
 
           <View style={styles.separator} />
 
-          <TouchableOpacity
-            style={styles.yesButton}
-            onPress={() => handleButtonPress(true)}
-            accessibilityRole="button"
-          >
+          <TouchableOpacity style={styles.yesButton} onPress={() => handleButtonPress(true)} accessibilityRole="button">
             <ThemedText style={styles.yesButtonText}>{t('YES')}</ThemedText>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Progressbar */}
       <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
         <ProgressBar
           progress={progress}
+          currentQuestionId={questionId}
+          answeredIds={answeredIds}
           accessibilityRole="progressbar"
           accessibilityValue={{ min: 0, max: 100, now: progress }}
         />
