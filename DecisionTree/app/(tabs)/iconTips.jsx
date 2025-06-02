@@ -95,7 +95,7 @@ export default function ProgressTips() {
         </View>
 
         {/* BUNN */}
-        <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
+        <View style={[styles.bottom, { paddingBottom: insets.bottom + 20 }]}>
           <ProgressBar
             progress={0}
             accessibilityRole="progressbar"

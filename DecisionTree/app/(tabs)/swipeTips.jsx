@@ -75,7 +75,7 @@ export default function SwipeTips() {
         </ScrollView>
 
         {/* BUNN */}
-        <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
+        <View style={[styles.bottom, { paddingBottom: insets.bottom + 20 }]}>
           <NextButton onPress={handleNext} text={t('NEXT')} accessibilityRole="button" />
         </View>
       </ThemedView>

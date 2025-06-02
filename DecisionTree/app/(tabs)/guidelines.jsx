@@ -143,7 +143,7 @@ const GuidelinesScreen = () => {
           </View>
         </View>
 
-        <View style={[styles.bottom, { paddingBottom: insets.bottom || 20 }]}>
+        <View style={[styles.bottom, { paddingBottom: insets.bottom + 20 }]}>
           <Modal
             animationType="fade"
             transparent={true}
