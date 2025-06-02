@@ -50,7 +50,7 @@ export default function IndexScreen() {
       </View>
 
       {/* BUNN */}
-      <View style={[styles.bottom, { paddingBottom: insets.bottom + 40 }]}>
+      <View style={[styles.bottom, { paddingBottom: insets.bottom + 60 }]}>
         <TouchableOpacity
           style={styles.startButton}
           onPress={() => router.push({ pathname: '/swipeTips', params: { reset: 'true' } })}
