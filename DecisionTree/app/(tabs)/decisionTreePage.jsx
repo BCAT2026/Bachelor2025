@@ -29,12 +29,12 @@ const DecisionTreePage = () => {
 
   const stepTitles = {
     1: {
-      no: 'Forberedende steg for vurdering av BC',
-      en: 'Preparatory steps for consideration for BC assessment',
+      no: 'Forberedelse',
+      en: 'Preparation',
     },
     2: {
-      no: 'Oppstart av vurdering av BC',
-      en: 'Initiation for BC assessment',
+      no: 'Oppstart av måling',
+      en: 'Initiation',
     },
     3: {
       no: 'Valg av metode',
@@ -53,11 +53,11 @@ const DecisionTreePage = () => {
       en: 'Data Reporting',
     },
     7: {
-      no: 'Formidling og kommunikasjon av data',
-      en: 'Data dissemination and communication',
+      no: 'Formidling av data',
+      en: 'Data dissemination',
     },
     8: {
-      no: 'Monitoring',
+      no: 'Oppfølging',
       en: 'Monitoring',
     },
   };
