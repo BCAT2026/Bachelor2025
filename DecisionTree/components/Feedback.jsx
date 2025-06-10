@@ -95,13 +95,13 @@ export default function Feedback({ feedbackType = 'green', message = '', onNext 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     backgroundColor: '#fff',
   },
   top: {
     marginTop: 80,
-    marginBottom: 40,
     alignItems: 'center',
+    marginBottom: 40,
   },
   lineWrapper: {
     position: 'relative',
