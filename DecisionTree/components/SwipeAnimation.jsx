@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform, Image, StyleSheet } from 'react-native';
-import { Video } from 'expo-av';
 
 export default function SwipeAnimation() {
   if (Platform.OS === 'web') {
@@ -12,6 +11,8 @@ export default function SwipeAnimation() {
       />
     );
   }
+
+  const { Video } = require('expo-av');
 
   return (
     <Video

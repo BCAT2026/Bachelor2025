@@ -1,8 +1,6 @@
-import React, { useRef } from 'react';
-import { Animated, Easing, StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import React from 'react';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { useTranslation } from 'react-i18next';
 import ProgressBar from './ProgressBar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,54 +10,40 @@ const progressBarHeight = 30;
 const progressBarBottom = height * 0.05;
 
 const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, progress }) => {
-  const animatedValue = useRef(new Animated.Value(0)).current;
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
 
-  const buttonBottom = insets.bottom + progressBarBottom + progressBarHeight + height * 0.02 - 30;
-
-  const triggerSwipe = (isYes) => {
-    const toValue = isYes ? 300 : -300;
-
-    Animated.timing(animatedValue, {
-      toValue,
-      duration: 300,
-      easing: Easing.out(Easing.ease),
-      useNativeDriver: true,
-    }).start(() => {
-      animatedValue.setValue(0); // reset position
-      onAnswer(isYes);
-    });
-  };
-
   return (
     <>
-      <GestureRecognizer
-        onSwipeLeft={() => triggerSwipe(false)}
-        onSwipeRight={() => triggerSwipe(true)}
-        config={{ velocityThreshold: 0.3, directionalOffsetThreshold: 80 }}
-        style={{ flex: 1 }}
-      >
-        <Animated.View style={[styles.container, {
-          transform: [{ translateX: animatedValue }],
-        }]}>
+      <View style={styles.container}>
+        <View style={styles.questionContent}>
           <ThemedText style={styles.title}>{stepTitle}</ThemedText>
           <ThemedText style={styles.subtitle}>{stepNumber} {t('OF')} {totalSteps}</ThemedText>
           <ThemedText style={styles.question}>{question}</ThemedText>
+        </View>
 
-          <ThemedView style={[styles.buttonContainer, { bottom: buttonBottom }]}>
-            <TouchableOpacity style={styles.noButton} onPress={() => triggerSwipe(false)} accessibilityRole="button">
-              <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
-            </TouchableOpacity>
+        <View style={[styles.buttonContainer, { marginBottom: insets.bottom + progressBarBottom + progressBarHeight }]}>
+          <TouchableOpacity
+            style={styles.noButton}
+            onPress={() => onAnswer(false)}
+            hitSlop={12}
+            accessibilityRole="button"
+          >
+            <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
+          </TouchableOpacity>
 
-            <View style={styles.separator} />
+          <View style={styles.separator} />
 
-            <TouchableOpacity style={styles.yesButton} onPress={() => triggerSwipe(true)} accessibilityRole="button">
-              <ThemedText style={styles.yesButtonText}>{t('YES')}</ThemedText>
-            </TouchableOpacity>
-          </ThemedView>
-        </Animated.View>
-      </GestureRecognizer>
+          <TouchableOpacity
+            style={styles.yesButton}
+            onPress={() => onAnswer(true)}
+            hitSlop={12}
+            accessibilityRole="button"
+          >
+            <ThemedText style={styles.yesButtonText}>{t('YES')}</ThemedText>
+          </TouchableOpacity>
+        </View>
+      </View>
       <ProgressBar progress={progress} bottomInset={insets.bottom} accessibilityRole="progressbar" accessibilityValue={{min: 0, max: 100, now: progress}}/>
     </>
   );
@@ -67,6 +51,12 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
+    minHeight: height * 0.7,
+  },
+  questionContent: {
     flex: 1,
     alignItems: 'center',
     width: '100%',
@@ -91,7 +81,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 40,
     alignItems: 'center',
-    position: 'absolute',
+    justifyContent: 'center',
   },
   noButton: {
     backgroundColor: '#fff',

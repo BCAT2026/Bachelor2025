@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View } from 'react-native'
+import { StyleSheet, Image, Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'expo-router'
 import { ThemedText } from './ThemedText'
@@ -94,11 +94,18 @@ const styles = StyleSheet.create({
     height: 10,
     borderTopLeftRadius: 80,
     borderTopRightRadius: 80,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: -7 },
-    shadowRadius: 5,
-    elevation: 4,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 -7px 5px rgba(0, 0, 0, 0.1)',
+      },
+      default: {
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: -7 },
+        shadowRadius: 5,
+        elevation: 4,
+      },
+    }),
   },
   icon: {
     position: 'absolute',

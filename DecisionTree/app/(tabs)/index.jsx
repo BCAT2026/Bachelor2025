@@ -1,4 +1,4 @@
-import { StyleSheet, Image, TouchableOpacity, Text, Modal } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Text, Modal, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -89,11 +89,18 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 30,
     borderRadius: 40,
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 2,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 2px 2px rgba(0, 0, 0, 0.2)',
+      },
+      default: {
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 2,
+      },
+    }),
     justifyContent: 'center',
     alignItems: 'center',
   },
