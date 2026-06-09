@@ -1,15 +1,27 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, Platform, StatusBar, ScrollView, View } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
+import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 
 export default function ParallaxScrollView({ children, noPadding = false, hideBack = false }) {
+  const { horizontalPadding, contentMaxWidth } = useResponsiveLayout();
+  const contentStyle = noPadding
+    ? styles.noPadding
+    : [styles.content, { paddingHorizontal: horizontalPadding }];
+
   return (
     <ThemedView style={styles.root}>
       <SafeAreaView style={styles.safeArea}>
       </SafeAreaView>
 
-      <ScrollView style={styles.scroll} contentContainerStyle={{ ...(noPadding ? styles.noPadding : styles.content), flexGrow: 1, paddingBottom: 40, }} keyboardShouldPersistTaps="handled">
-        {children}
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[contentStyle, styles.scrollContent]}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
+          {children}
+        </View>
       </ScrollView>
     </ThemedView>
   );
@@ -26,6 +38,15 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
   },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 40,
+  },
+  inner: {
+    width: '100%',
+    alignSelf: 'center',
+    flexGrow: 1,
+  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -35,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   content: {
-    padding: 32,
+    paddingVertical: 24,
     gap: 16,
     alignItems: 'stretch',
   },

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Step from '../../components/Questions';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import Feedback from '../../components/Feedback';                  
@@ -6,11 +7,11 @@ import decisionTreeDataNO from '../data/decisionTreeDataNO';
 import decisionTreeDataEN from '../data/decisionTreeDataEN';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useCallback } from 'react';
 import TransitionMessage from '../../components/TransitionMessage';
 import Header from '../../components/Header';
-import ProgressBar from '../../components/ProgressBar'; 
+import { DECISION_TREE_PROGRESS_KEY } from '@/constants/storageKeys';
 
 
 
@@ -22,6 +23,7 @@ const DecisionTreePage = () => {
   const [feedbackOption, setFeedbackOption] = useState(null)
   const [answers, setAnswers] = useState({})
   const [history, setHistory] = useState([])
+  const [hasLoadedSavedState, setHasLoadedSavedState] = useState(false)
 
   const decisionTreeData = i18n.language === 'no' ? decisionTreeDataNO : decisionTreeDataEN
   const currentNode = decisionTreeData.find((node) => node.id === currentId)
@@ -61,22 +63,143 @@ const DecisionTreePage = () => {
     },
   }
 
-  useEffect(() => {
-    if (reset === 'true') {
-      setCurrentId('q1')
-      setFeedbackOption(null)
-      setAnswers({})
-      setHistory([])
-      router.setParams({ reset: undefined })
+  const resetDecisionTreeProgress = useCallback(async () => {
+    try {
+      await AsyncStorage.removeItem(DECISION_TREE_PROGRESS_KEY)
+    } catch {
+      // Appen skal fortsatt kunne nullstilles selv om lokal lagring feiler.
     }
-  }, [reset]);
 
-  const getNextVisibleNode = (fromIndex = -1) => {
+    setCurrentId('q1')
+    setFeedbackOption(null)
+    setAnswers({})
+    setHistory([])
+  }, [])
+
+  useEffect(() => {
+    let isActive = true
+
+    const loadSavedProgress = async () => {
+      if (reset === 'true') {
+        try {
+          await AsyncStorage.removeItem(DECISION_TREE_PROGRESS_KEY)
+        } catch {
+          // Fortsett med å nullstille visningen selv om lagringen ikke kan slettes.
+        }
+        if (!isActive) return
+        setCurrentId('q1')
+        setFeedbackOption(null)
+        setAnswers({})
+        setHistory([])
+        setHasLoadedSavedState(true)
+        router.setParams({ reset: undefined })
+        return
+      }
+
+      try {
+        const savedProgress = await AsyncStorage.getItem(DECISION_TREE_PROGRESS_KEY)
+        if (!savedProgress || !isActive) {
+          return
+        }
+
+        const parsedProgress = JSON.parse(savedProgress)
+        const savedNodeExists = decisionTreeData.some((node) => node.id === parsedProgress.currentId)
+
+        if (!savedNodeExists) {
+          await AsyncStorage.removeItem(DECISION_TREE_PROGRESS_KEY)
+          if (!isActive) return
+          setCurrentId('q1')
+          setFeedbackOption(null)
+          setAnswers({})
+          setHistory([])
+          return
+        }
+
+        if (typeof parsedProgress.currentId === 'string') {
+          setCurrentId(parsedProgress.currentId)
+        }
+        if (parsedProgress.feedbackOption) {
+          setFeedbackOption(parsedProgress.feedbackOption)
+        }
+        if (parsedProgress.answers && typeof parsedProgress.answers === 'object') {
+          setAnswers(parsedProgress.answers)
+        }
+        if (Array.isArray(parsedProgress.history)) {
+          setHistory(parsedProgress.history)
+        }
+      } catch {
+        try {
+          await AsyncStorage.removeItem(DECISION_TREE_PROGRESS_KEY)
+        } catch {
+          // Ignorer sekundær feil ved opprydding.
+        }
+      } finally {
+        if (isActive) {
+          setHasLoadedSavedState(true)
+        }
+      }
+    }
+
+    loadSavedProgress()
+
+    return () => {
+      isActive = false
+    }
+  }, [reset, router]);
+
+  useEffect(() => {
+    if (!hasLoadedSavedState) return
+
+    const saveProgress = async () => {
+      const hasProgress =
+        currentId !== 'q1' ||
+        feedbackOption !== null ||
+        Object.keys(answers).length > 0 ||
+        history.length > 0
+
+      if (!hasProgress) {
+        try {
+          await AsyncStorage.removeItem(DECISION_TREE_PROGRESS_KEY)
+        } catch {
+          // Appen kan fortsette selv om lokal lagring midlertidig feiler.
+        }
+        return
+      }
+
+      try {
+        await AsyncStorage.setItem(
+          DECISION_TREE_PROGRESS_KEY,
+          JSON.stringify({
+            currentId,
+            feedbackOption,
+            answers,
+            history,
+            updatedAt: new Date().toISOString(),
+          })
+        )
+      } catch {
+        // Ikke avbryt flyten dersom fremdrift ikke kan lagres.
+      }
+    }
+
+    saveProgress()
+  }, [currentId, feedbackOption, answers, history, hasLoadedSavedState])
+
+  const normalizeAnswer = (value) => {
+    if (value === 'Ja' || value === 'Yes') return 'yes'
+    if (value === 'Nei' || value === 'No') return 'no'
+    return value
+  }
+
+  const answerMatchesCondition = (savedAnswer, expectedAnswer) =>
+    savedAnswer === expectedAnswer || normalizeAnswer(savedAnswer) === normalizeAnswer(expectedAnswer)
+
+  const getNextVisibleNode = (fromIndex = -1, answerSet = answers) => {
     for (let i = fromIndex + 1; i < decisionTreeData.length; i++) {
       const node = decisionTreeData[i]
       if (!node.visibleIf) return node.id
       const condition = node.visibleIf
-      if (answers[condition.previousQuestion] === condition.expectedAnswer) {
+      if (answerMatchesCondition(answerSet[condition.previousQuestion], condition.expectedAnswer)) {
         return node.id
       }
     }
@@ -109,7 +232,7 @@ const DecisionTreePage = () => {
       setCurrentId(selectedOption.next);
     } else {
       const currentIndex = decisionTreeData.findIndex((n) => n.id === currentNode.id);
-      const nextVisible = getNextVisibleNode(currentIndex);
+      const nextVisible = getNextVisibleNode(currentIndex, updatedAnswers);
       setHistory((prev) => [...prev, currentId]);
       setCurrentId(nextVisible);
     }
@@ -154,6 +277,7 @@ const DecisionTreePage = () => {
         feedbackType={feedbackOption.feedbackType}
         message={message}
         onNext={handleNext}
+        onExit={resetDecisionTreeProgress}
       />
     )
   }
@@ -170,18 +294,37 @@ const DecisionTreePage = () => {
   : currentId;
 
   const currentIndex = extractNumber(referenceId || 'q1');
-  const overallProgress = Math.round((currentIndex / 37) * 100);
+  const overallProgress = currentNode?.id === 'complete'
+    ? 100
+    : currentNode?.id === 'q37'
+      ? Math.round((36 / 37) * 100)
+      : Math.round((currentIndex / 37) * 100);
 
 
-  if (!currentNode) return null
+  if (!hasLoadedSavedState || !currentNode) return null
 
   if (currentNode?.isTransition) {
+    const isComplete = currentNode.id === 'complete'
+    const handleTransitionNext = () => {
+      if (isComplete) {
+        AsyncStorage.removeItem(DECISION_TREE_PROGRESS_KEY).catch(() => {})
+        setCurrentId('q1')
+        setFeedbackOption(null)
+        setAnswers({})
+        setHistory([])
+        return
+      }
+
+      setCurrentId(currentNode.next)
+    }
+
     return (
       <ParallaxScrollView>
         <TransitionMessage
           message={currentNode.message}
-          onNext={() => setCurrentId(currentNode.next)}
+          onNext={handleTransitionNext}
           progress={overallProgress} 
+          buttonText={isComplete ? t('START_OVER') : undefined}
         />
       </ParallaxScrollView>
     )

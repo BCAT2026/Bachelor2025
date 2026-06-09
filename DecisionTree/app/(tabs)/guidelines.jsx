@@ -6,6 +6,7 @@ import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 
 const GuidelinesScreen = () => {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -15,6 +16,7 @@ const GuidelinesScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
   const { t } = useTranslation();
+  const { width, height, scale, isSmallPhone } = useResponsiveLayout();
 
   const guidelines = numbers.map((number) => ({
     number,
@@ -29,10 +31,14 @@ const GuidelinesScreen = () => {
     setModalVisible(true);
   };
 
-  const outerRadius = 140;
-  const innerRadius = 90;
+  const outerRadius = Math.min(
+    Math.max(width * (isSmallPhone ? 0.36 : 0.38), 116),
+    Math.min(168, height * 0.2)
+  );
+  const innerRadius = outerRadius * 0.64;
   const centerX = outerRadius + 10;
   const centerY = outerRadius + 10;
+  const numberSize = Math.min(Math.max(outerRadius * 0.28, 34), 44);
 
   const lightGreen = [167, 200, 176];
   const darkGreen = [26, 49, 38];
@@ -117,7 +123,14 @@ const GuidelinesScreen = () => {
             return (
               <TouchableOpacity
                 key={`number-${index}`}
-                style={[styles.numberCircle, { position: 'absolute', left: x - 20, top: y - 20 }]}
+                style={[styles.numberCircle, {
+                  position: 'absolute',
+                  left: x - (numberSize / 2),
+                  top: y - (numberSize / 2),
+                  width: numberSize,
+                  height: numberSize,
+                  borderRadius: numberSize / 2,
+                }]}
                 onPress={() => handleNumberPress(number)}
               >
                 <ThemedText style={styles.numberText}>{number}</ThemedText>
@@ -134,10 +147,10 @@ const GuidelinesScreen = () => {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <ThemedText style={styles.modalTitle}>
+              <ThemedText style={[styles.modalTitle, { fontSize: scale(18, 16, 21) }]}>
                 {selectedNumber}. {selectedTitleKey ? t(selectedTitleKey) : ''}
               </ThemedText>
-              <ThemedText style={styles.modalBody}>
+              <ThemedText style={[styles.modalBody, { fontSize: scale(16, 14, 18) }]}>
                 {selectedKey ? t(selectedKey) : ''}
               </ThemedText>
               <TouchableOpacity
@@ -167,27 +180,30 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 10,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 19,
+    lineHeight: 25,
   },
   subtitle: {
-    paddingTop: 10,
+    paddingTop: 16,
     paddingBottom: 0,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 15,
+    lineHeight: 21,
   },
   guidelineRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderColor: '#ccc',
+    minHeight: 54,
   },
   guidelineCell: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 2,
-    paddingHorizontal: 5,
-    gap: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 6,
+    gap: 8,
   },
   guidelineNumberCircle: {
     width: 35,
@@ -204,24 +220,24 @@ const styles = StyleSheet.create({
   },
   guidelineTitle: {
     color: '#2E443E',
-    fontSize: 14,
+    fontSize: 13,
+    lineHeight: 18,
     flexShrink: 1,
   },
   guidelineTable: {
     width: '100%',
     borderTopWidth: 1,
     borderColor: '#ccc',
+    marginTop: 4,
   },
   circleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    marginVertical: 0,
+    marginTop: 16,
+    marginBottom: 24,
   },
   numberCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -253,9 +269,10 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: 'white',
     paddingVertical: 25,
-    paddingHorizontal: 30,
+    paddingHorizontal: 24,
     borderRadius: 15,
-    width: '80%',
+    width: '88%',
+    maxWidth: 560,
     alignItems: 'center',
   },
   modalTitle: {

@@ -1,13 +1,20 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Image, Platform, StyleSheet, View } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { Image } from 'react-native';
+
+function TabIcon({ focused, children }) {
+  return (
+    <View style={[styles.iconWrap, focused && styles.iconWrapActive]}>
+      {children}
+    </View>
+  );
+}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,11 +28,20 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarLabelStyle: styles.tabLabel,
+        tabBarItemStyle: styles.tabItem,
+        tabBarIconStyle: styles.tabIcon,
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
+            borderTopWidth: 1,
+            borderTopColor: '#D9E0DC',
           },
-          default: {},
+          default: {
+            borderTopWidth: 1,
+            borderTopColor: '#D9E0DC',
+            backgroundColor: '#FFFFFF',
+          },
         }),
       }}
     >
@@ -34,12 +50,14 @@ export default function TabLayout() {
         options={{
           title: t('HOME'),
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "home" : "home-outline"}
-              size={28}
-              color={color}
-              accessibilityRole="button" 
-            />
+            <TabIcon focused={focused}>
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={24}
+                color={color}
+                accessibilityRole="button"
+              />
+            </TabIcon>
           ),
         }}
       />
@@ -49,16 +67,18 @@ export default function TabLayout() {
   options={{
     title: t('GUIDELINES'),
     tabBarIcon: ({ focused }) => (
-      <Image
-        source={
-          focused
-            ? require('../../assets/images/retningslinjer_ikon1.png')
-            : require('../../assets/images/retningslinjer_ikon2.png')
-        }
-        style={{ width: 28, height: 28 }}
-        resizeMode="contain"
-        accessibilityRole="button"
-      />
+      <TabIcon focused={focused}>
+        <Image
+          source={
+            focused
+              ? require('../../assets/images/retningslinjer_ikon1.png')
+              : require('../../assets/images/retningslinjer_ikon2.png')
+          }
+          style={styles.guidelineIcon}
+          resizeMode="contain"
+          accessibilityRole="button"
+        />
+      </TabIcon>
     ),
   }}
 />
@@ -67,12 +87,14 @@ export default function TabLayout() {
         options={{
           title: "BCAT",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "git-branch" : "git-branch-outline"}
-              size={28}
-              color={color}
-              accessibilityRole="button"
-            />
+            <TabIcon focused={focused}>
+              <Ionicons
+                name={focused ? "git-branch" : "git-branch-outline"}
+                size={24}
+                color={color}
+                accessibilityRole="button"
+              />
+            </TabIcon>
           ),
         }}
       />
@@ -81,12 +103,14 @@ export default function TabLayout() {
         options={{
           title: t('MORE'),
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "ellipsis-horizontal" : "ellipsis-horizontal-outline"}
-              size={28}
-              color={color}
-              accessibilityRole="button"
-            />
+            <TabIcon focused={focused}>
+              <Ionicons
+                name={focused ? "ellipsis-horizontal" : "ellipsis-horizontal-outline"}
+                size={24}
+                color={color}
+                accessibilityRole="button"
+              />
+            </TabIcon>
           ),
         }}
       />
@@ -108,3 +132,32 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabItem: {
+    paddingVertical: 2,
+  },
+  tabIcon: {
+    marginTop: 2,
+  },
+  tabLabel: {
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 10,
+    lineHeight: 13,
+    marginTop: 1,
+  },
+  iconWrap: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconWrapActive: {
+    backgroundColor: '#E8F2EA',
+  },
+  guidelineIcon: {
+    width: 23,
+    height: 23,
+  },
+});

@@ -12,10 +12,14 @@ const resources = {
 };
 
 const getUserPreferredLanguage = async () => {
-  const savedLanguage = await AsyncStorage.getItem(LANGUAGE_PREFERENCE_KEY);
-  if (savedLanguage) return savedLanguage;
+  try {
+    const savedLanguage = await AsyncStorage.getItem(LANGUAGE_PREFERENCE_KEY);
+    if (savedLanguage) return savedLanguage;
+  } catch {
+    // Bruk enhetsspråk dersom lagret språkvalg ikke kan leses.
+  }
 
-  const deviceLanguage = navigator.language || 'en';
+  const deviceLanguage = typeof navigator !== 'undefined' ? navigator.language : 'en';
   return deviceLanguage.startsWith('no') ? 'no' : 'en';
 };
 

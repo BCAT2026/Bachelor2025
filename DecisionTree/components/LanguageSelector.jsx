@@ -16,13 +16,16 @@ const LanguageSelector = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(i18next.language);
 
   const saveLanguage = async (lang) => {
-    await AsyncStorage.setItem(LANGUAGE_PREFERENCE_KEY, lang);
+    try {
+      await AsyncStorage.setItem(LANGUAGE_PREFERENCE_KEY, lang);
+    } catch {
+      // Språkbyttet skal fortsatt fungere selv om valget ikke kan lagres.
+    }
+
     i18next.changeLanguage(lang);
     i18next.reloadResources();
     setSelectedLanguage(lang);
     setModalVisible(false);
-
-    console.log('Språk byttet til:', lang);
   };
 
   const currentFlag = languages.find((l) => l.code === selectedLanguage)?.flag ?? '🌐';
