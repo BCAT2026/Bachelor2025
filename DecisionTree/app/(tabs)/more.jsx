@@ -185,15 +185,6 @@ export default function More() {
               </ThemedText>
             </TouchableOpacity>
           </View>
-
-          <View style={styles.contactBlock}>
-            <ThemedText style={[styles.contactLabel, { fontSize: scale(15, 13, 17) }]}>
-              {t('CONTACT_ADDRESS_LABEL')}
-            </ThemedText>
-            <ThemedText style={[styles.detailText, styles.lastDetailText, { fontSize: scale(16, 14, 18), lineHeight: scale(25, 23, 28) }]}>
-              {t('CONTACT_ADDRESS')}
-            </ThemedText>
-          </View>
         </View>
       </ParallaxScrollView>
     );

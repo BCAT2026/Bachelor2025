@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: 2,
-    backgroundColor: '#345641',
+    backgroundColor: '#A8C6AD',
     borderRadius: 1,
   },
 });
