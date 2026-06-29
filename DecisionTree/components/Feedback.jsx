@@ -1,14 +1,17 @@
-import { StyleSheet, Image, View } from 'react-native'
+import { StyleSheet, Image, Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'expo-router'
 import { ThemedText } from './ThemedText'
 import NextButton from './NextButton'
 import ExitButton from './ExitButton'
 import ParallaxScrollView from './ParallaxScrollView'
+import { useResponsiveLayout } from '@/hooks/useResponsiveLayout'
+import MarkdownLinkText from './MarkdownLinkText'
 
-export default function Feedback({ feedbackType = 'green', message = '', onNext }) {
+export default function Feedback({ feedbackType = 'green', message = '', onNext, onExit }) {
   const { t } = useTranslation()
   const router = useRouter()
+  const { scale } = useResponsiveLayout()
 
   const feedbackMap = {
     red: {
@@ -39,26 +42,38 @@ export default function Feedback({ feedbackType = 'green', message = '', onNext 
     onNext()
   }
 
+  const handleExit = async () => {
+    await onExit?.()
+    router.replace({ pathname: '/', params: { reset: 'true' } })
+  }
+
   return (
     <ParallaxScrollView noPadding>
       {showFeedback && (
         <View style={styles.lineWrapper}>
           <View style={[styles.curvedLine, { backgroundColor: color }]} />
-          <Image source={icon} style={styles.icon} />
+          <Image
+            source={icon}
+            style={[styles.icon, {
+              width: scale(65, 50, 76),
+              height: scale(65, 50, 76),
+            }]}
+          />
         </View>
       )}
 
       <View style={styles.scrollContent}>
         {showFeedback && (
           <>
-            <ThemedText type="title" style={styles.title}>
+            <ThemedText type="title" style={[styles.title, { fontSize: scale(24, 20, 28) }]}>
               {title}
             </ThemedText>
 
             <View style={styles.textWrapper}>
-              <ThemedText type="default" style={styles.text}>
-                {finalMessage}
-              </ThemedText>
+              <MarkdownLinkText
+                text={finalMessage}
+                style={[styles.text, { fontSize: scale(16, 15, 18), lineHeight: scale(25, 23, 28) }]}
+              />
             </View>
           </>
         )}
@@ -73,7 +88,7 @@ export default function Feedback({ feedbackType = 'green', message = '', onNext 
         {isRed && (
           <View style={{ marginTop: 16 }}>
             <ExitButton
-              onPress={() => router.replace({ pathname: '/', params: { reset: 'true' } })}
+              onPress={handleExit}
               text={t('EXIT')}
             />
           </View>
@@ -94,11 +109,18 @@ const styles = StyleSheet.create({
     height: 10,
     borderTopLeftRadius: 80,
     borderTopRightRadius: 80,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: -7 },
-    shadowRadius: 5,
-    elevation: 4,
+    ...Platform.select({
+      web: {
+        boxShadow: '0 -7px 5px rgba(0, 0, 0, 0.1)',
+      },
+      default: {
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: -7 },
+        shadowRadius: 5,
+        elevation: 4,
+      },
+    }),
   },
   icon: {
     position: 'absolute',
@@ -111,12 +133,14 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 24,
     alignItems: 'center',
+    width: '100%',
   },
   title: {
     fontSize: 24,
     fontFamily: 'Poppins_600SemiBold',
     textAlign: 'center',
     marginBottom: 16,
+    lineHeight: 31,
   },
   textWrapper: {
     width: '100%',
@@ -126,6 +150,5 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'left',
     marginBottom: 40,
-    fontSize: 16,
   },
 })

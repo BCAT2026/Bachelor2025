@@ -1,15 +1,18 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
+import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 
 export default function TipsBox({ title = 'Tips!', subtitle }) {
+  const { scale } = useResponsiveLayout();
+
   return (
     <View style={styles.container}>
-      <ThemedText type="title" style={styles.title}>
+      <ThemedText type="title" style={[styles.title, { fontSize: scale(22, 19, 25) }]}>
         {title}
       </ThemedText>
       {subtitle && (
-        <ThemedText type="default" style={styles.subtitle}>
+        <ThemedText type="default" style={[styles.subtitle, { fontSize: scale(16, 14, 18) }]}>
           {subtitle}
         </ThemedText>
       )}
@@ -27,6 +30,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#2E443E',
     marginBottom: 10,
+    width: '100%',
   },
   title: {
     fontSize: 22,
@@ -37,5 +41,6 @@ const styles = StyleSheet.create({
   subtitle: {
     color: '#2E443E', 
     textAlign: 'center',
+    lineHeight: 23,
   },
 });

@@ -2,7 +2,12 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 export default function ExitButton({ onPress = () => {}, text = 'Avslutt' }) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress} accessibilityRole="button">
+    <TouchableOpacity
+      style={styles.button}
+      onPress={onPress}
+      activeOpacity={0.78}
+      accessibilityRole="button"
+    >
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );
@@ -13,14 +18,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#AF0012',
     borderRadius: 50,
     alignSelf: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: 13,
+    paddingHorizontal: 28,
     marginBottom: 10,
+    minWidth: 112,
+    alignItems: 'center',
   },
   text: {
     color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Poppins_400Regular',
+    fontSize: 18,
+    lineHeight: 23,
+    fontFamily: 'Poppins_600SemiBold',
     marginBottom: -2,
   },
 });

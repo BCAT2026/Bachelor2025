@@ -2,11 +2,13 @@
 
 # dependencies
 node_modules/
+.npm-cache/
 
 # Expo
 .expo/
 dist/
 web-build/
+.expo-check/
 expo-env.d.ts
 
 # Native

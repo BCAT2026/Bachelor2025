@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedView } from '@/components/ThemedView';
@@ -10,18 +10,22 @@ import Header from '@/components/Header';
 import { useTranslation } from 'react-i18next';
 import SwipeAnimation from '@/components/SwipeAnimation';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 
 export default function SwipeTips() {
   const router = useRouter();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+  const { horizontalPadding, contentMaxWidth, scale, isSmallPhone } = useResponsiveLayout();
+  const buttonSize = scale(100, 76, 108);
 
   const handleNext = async () => {
     try {
       await AsyncStorage.setItem('hasSeenSwipeTips', 'true');
       router.push('/iconTips');
-    } catch (error) {
-      console.error('Feil ved lagring av instruksjonsstatus:', error);
-      router.push('/(tabs)/decisionTreePage');
+    } catch {
+      router.push('/iconTips');
     }
   };
 
@@ -37,23 +41,45 @@ export default function SwipeTips() {
         accessibilityRole="image"
         accessibilityLabel={t('ALT_SWIPEHAND')}
       >
-        <ThemedView style={styles.container}>
-          <Header />
-          <ThemedText style={styles.subtitle}>{t('TITLE_GUIDELINES')}</ThemedText>
+        <ThemedView style={styles.root}>
+          <ScrollView
+            contentContainerStyle={[
+              styles.container,
+              {
+                paddingTop: insets.top + (isSmallPhone ? 18 : 34),
+                paddingHorizontal: horizontalPadding,
+              },
+            ]}
+          >
+            <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
+              <Header />
+              <ThemedText style={styles.subtitle}>{t('TITLE_GUIDELINES')}</ThemedText>
 
-          <TipsBox subtitle={t('TIP1')} />
+              <TipsBox subtitle={t('TIP1')} />
 
-          <SwipeAnimation />
+              <SwipeAnimation />
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.noButton} activeOpacity={1} accessibilityRole="button">
+              <View style={[styles.buttonContainer, { gap: scale(40, 20, 44) }]}>
+            <TouchableOpacity
+              style={[styles.noButton, {
+                width: buttonSize,
+                height: buttonSize,
+                borderRadius: buttonSize / 2,
+              }]}
+              activeOpacity={1}
+              accessibilityRole="button"
+            >
               <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
             </TouchableOpacity>
 
-            <View style={styles.separator} />
+            <View style={[styles.separator, { height: scale(60, 42, 66) }]} />
 
             <TouchableOpacity
-              style={styles.yesButton}
+              style={[styles.yesButton, {
+                width: buttonSize,
+                height: buttonSize,
+                borderRadius: buttonSize / 2,
+              }]}
               onPress={handleNext}
               activeOpacity={0.8}
             >
@@ -61,7 +87,9 @@ export default function SwipeTips() {
             </TouchableOpacity>
           </View>
 
-          <NextButton onPress={handleNext} text={t('NEXT')} style={styles.nextButton} />
+              <NextButton onPress={handleNext} text={t('NEXT')} style={styles.nextButton} />
+            </View>
+          </ScrollView>
         </ThemedView>
       </GestureRecognizer>
     </>
@@ -73,18 +101,19 @@ const PRIMARY = '#345641';
 const BG = '#fff';
 
 const styles = StyleSheet.create({
-  safeArea: {
+  root: {
     flex: 1,
     backgroundColor: BG,
-    paddingTop: 70
   },
-  
   container: {
-    flex: 1,
-    paddingHorizontal: 22,
+    flexGrow: 1,
     alignItems: 'flex-start',
     backgroundColor: BG,
-    paddingTop: 50,
+    paddingBottom: 32,
+  },
+  inner: {
+    width: '100%',
+    alignSelf: 'center',
   },
   subtitle: {
     fontSize: 16,
@@ -98,7 +127,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    gap: 40,
     marginTop: 0,
     marginBottom: 22,
     alignSelf: 'center',
@@ -108,9 +136,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderColor: '#345641',
     borderWidth: 2,
-    width: 100,
-    height: 100,
-    borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -118,9 +143,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#345641',
     borderColor: '#345641',
     borderWidth: 2,
-    width: 100,
-    height: 100,
-    borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -138,9 +160,11 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: 2,
-    height: 60,
     backgroundColor: '#345641',
     borderRadius: 1,
     alignSelf: 'center'
+  },
+  nextButton: {
+    marginTop: 4,
   },
 });
