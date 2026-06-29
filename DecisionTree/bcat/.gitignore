@@ -27,3 +27,8 @@
 
 # Dotenv and similar local-only files
 *.local
+
+#Sanity
+.env
+.env.*
+!.env.example

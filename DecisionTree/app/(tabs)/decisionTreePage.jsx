@@ -12,7 +12,8 @@ import { useCallback } from 'react';
 import TransitionMessage from '../../components/TransitionMessage';
 import Header from '../../components/Header';
 import { DECISION_TREE_PROGRESS_KEY } from '@/constants/storageKeys';
-
+import { stopPointLog } from '../../api/stopPointLog';
+import { completedLogs } from '../../api/completedLogs';
 
 
 const DecisionTreePage = () => {
@@ -206,37 +207,74 @@ const DecisionTreePage = () => {
     return 'q1';
   }
 
-  const handleAnswer = (answer) => {
-    const selectedOption = currentNode.options[answer ? 0 : 1];
-    const updatedAnswers = { ...answers, [currentNode.id]: selectedOption.label };
-    setAnswers(updatedAnswers);
-  
-    if (selectedOption.feedbackType) {
-      if (selectedOption.next) {
-        const nextNode = decisionTreeData.find((n) => n.id === selectedOption.next);
-        if (nextNode?.isTransition) {
-          setCurrentId(nextNode.id);
-          return;
-        }
-      }
-  
-      setHistory((prev) => [...prev, currentId]);
-      setFeedbackOption({
-        feedbackType: selectedOption.feedbackType,
-        feedbackMessage: selectedOption.feedbackMessage,
-        next: selectedOption.next ?? null,
-        fromNode: currentNode.id,
-      });
-    } else if (selectedOption.next) {
-      setHistory((prev) => [...prev, currentId]);
-      setCurrentId(selectedOption.next);
-    } else {
-      const currentIndex = decisionTreeData.findIndex((n) => n.id === currentNode.id);
-      const nextVisible = getNextVisibleNode(currentIndex, updatedAnswers);
-      setHistory((prev) => [...prev, currentId]);
-      setCurrentId(nextVisible);
-    }
+const handleAnswer = (answer) => {
+  const selectedOption = currentNode.options[answer ? 0 : 1];
+
+  const updatedAnswers = {
+    ...answers,
+    [currentNode.id]: selectedOption.label,
   };
+
+  setAnswers(updatedAnswers);
+
+  // Logg røde stoppunkter.
+  if (selectedOption.feedbackType === 'red') {
+    void stopPointLog(currentNode.question, currentNode.id);
+  }
+
+  // Logg bare når hele beslutningstreet faktisk fullføres.
+  if (selectedOption.next === 'complete') {
+    void completedLogs(currentNode.question, currentNode.id);
+  }
+
+  if (selectedOption.feedbackType) {
+    if (selectedOption.next) {
+      const nextNode = decisionTreeData.find(
+        (node) => node.id === selectedOption.next
+      );
+
+      if (nextNode?.isTransition) {
+        setCurrentId(nextNode.id);
+        return;
+      }
+    }
+
+    setHistory((previousHistory) => [
+      ...previousHistory,
+      currentId,
+    ]);
+
+    setFeedbackOption({
+      feedbackType: selectedOption.feedbackType,
+      feedbackMessage: selectedOption.feedbackMessage,
+      next: selectedOption.next ?? null,
+      fromNode: currentNode.id,
+    });
+  } else if (selectedOption.next) {
+    setHistory((previousHistory) => [
+      ...previousHistory,
+      currentId,
+    ]);
+
+    setCurrentId(selectedOption.next);
+  } else {
+    const currentIndex = decisionTreeData.findIndex(
+      (node) => node.id === currentNode.id
+    );
+
+    const nextVisible = getNextVisibleNode(
+      currentIndex,
+      updatedAnswers
+    );
+
+    setHistory((previousHistory) => [
+      ...previousHistory,
+      currentId,
+    ]);
+
+    setCurrentId(nextVisible);
+  }
+};
   
 
   const handleGoBack = () => {

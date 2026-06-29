@@ -1,15 +1,17 @@
-import client from './sanityClient'
+import { logEvent } from './logEvent'
 
-export async function completedLogs(question: string, stoppunkt: string) {
+export async function completedLogs(
+  question: string,
+  stoppunkt: string
+) {
   try {
-    await client.create({
-      _type: 'completedLog',
+    return await logEvent({
+      type: 'completed',
       question,
       stoppunkt,
-      timestamp: new Date().toISOString(),
-    });
-    console.log('Fullført logget i Sanity:', stoppunkt, question);
+    })
   } catch (error) {
-    console.error('Feil ved fullført-logging til Sanity:', error);
+    console.error('Feil ved logging av fullføring:', error)
+    return false
   }
 }

@@ -1,15 +1,17 @@
-import client from './sanityClient'
+import { logEvent } from './logEvent'
 
-export async function stopPointLog(question: string ,stoppunkt: string) {
+export async function stopPointLog(
+  question: string,
+  stoppunkt: string
+) {
   try {
-    await client.create({
-      _type: 'progressLog',
+    return await logEvent({
+      type: 'progress',
       question,
       stoppunkt,
-      timestamp: new Date().toISOString(),
     })
-    console.log('Logget til Sanity:', stoppunkt, question)
   } catch (error) {
-    console.error('Feil ved logging til Sanity:', error)
+    console.error('Feil ved logging av stoppunkt:', error)
+    return false
   }
 }
