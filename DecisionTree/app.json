@@ -29,7 +29,12 @@
       "output": "server"
     },
     "plugins": [
-      "expo-router",
+      [
+  "expo-router",
+  {
+    "origin": "https://bcat.expo.app"
+  }
+],
       [
         "expo-splash-screen",
         {
@@ -45,6 +50,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "97f15028-2053-490c-8ca0-4dd1a3c9eea5"
+      }
     }
   }
 }
