@@ -59,7 +59,7 @@ export default function IndexScreen() {
     }
 
     setHasSavedProgress(false);
-    router.push({ pathname: '/iconTips', params: { reset: 'true' } });
+    router.push({ pathname: '/swipeTips', params: { reset: 'true' } });
   };
 
   const handleContinue = () => {

@@ -68,14 +68,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
     onPanResponderTerminationRequest: () => false,
     onPanResponderMove: (_, gestureState) => {
       if (hasAnsweredRef.current) return;
-
       swipeX.setValue(gestureState.dx);
-
-      if (gestureState.dx > swipeThreshold) {
-        answerWithSwipe(true);
-      } else if (gestureState.dx < -swipeThreshold) {
-        answerWithSwipe(false);
-      }
     },
     onPanResponderRelease: (_, gestureState) => {
       if (hasAnsweredRef.current) return;
@@ -106,12 +99,12 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
     extrapolate: 'clamp',
   });
   const yesOpacity = swipeX.interpolate({
-    inputRange: [8, Math.min(swipeThreshold, 58)],
+    inputRange: [4, Math.min(swipeThreshold, 34)],
     outputRange: [0, 1],
     extrapolate: 'clamp',
   });
   const noOpacity = swipeX.interpolate({
-    inputRange: [-Math.min(swipeThreshold, 58), -8],
+    inputRange: [-Math.min(swipeThreshold, 34), -4],
     outputRange: [1, 0],
     extrapolate: 'clamp',
   });
@@ -144,20 +137,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
             </ThemedText>
           </View>
 
-          <Animated.View
-            style={[
-              styles.questionCard,
-              {
-                minHeight: scale(178, 148, 218),
-                marginTop: scale(14, 10, 18),
-                transform: [
-                  { translateX: swipeX },
-                  { rotate: cardRotation },
-                ],
-              },
-            ]}
-            {...panResponder.panHandlers}
-          >
+          <View style={[styles.cardStage, { marginTop: scale(18, 14, 22) }]}>
             <Animated.View style={[styles.swipeBadge, styles.noSwipeBadge, { opacity: noOpacity }]}>
               <ThemedText style={styles.noSwipeText}>{t('NO')}</ThemedText>
             </Animated.View>
@@ -165,11 +145,25 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
               <ThemedText style={styles.yesSwipeText}>{t('YES')}</ThemedText>
             </Animated.View>
 
-            <MarkdownLinkText
-              text={question}
-              style={[styles.question, { fontSize: scale(17, 15, 19), lineHeight: scale(25, 22, 29) }]}
-            />
-          </Animated.View>
+            <Animated.View
+              style={[
+                styles.questionCard,
+                {
+                  minHeight: scale(178, 148, 218),
+                  transform: [
+                    { translateX: swipeX },
+                    { rotate: cardRotation },
+                  ],
+                },
+              ]}
+              {...panResponder.panHandlers}
+            >
+              <MarkdownLinkText
+                text={question}
+                style={[styles.question, { fontSize: scale(17, 15, 19), lineHeight: scale(25, 22, 29) }]}
+              />
+            </Animated.View>
+          </View>
         </View>
 
         <View style={[styles.buttonContainer, {
@@ -228,6 +222,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  cardStage: {
+    width: '100%',
+    overflow: 'visible',
+  },
   questionCard: {
     width: '100%',
     alignItems: 'center',
@@ -241,20 +239,20 @@ const styles = StyleSheet.create({
   },
   swipeBadge: {
     position: 'absolute',
-    top: 14,
+    top: -14,
     borderWidth: 2,
     borderRadius: 18,
     paddingVertical: 4,
     paddingHorizontal: 12,
-    zIndex: 2,
+    zIndex: 3,
   },
   noSwipeBadge: {
-    left: 14,
+    left: 12,
     borderColor: '#345641',
     backgroundColor: '#FFFFFF',
   },
   yesSwipeBadge: {
-    right: 14,
+    right: 12,
     borderColor: '#345641',
     backgroundColor: '#345641',
   },

@@ -36,11 +36,16 @@ export default function TabLayout() {
             position: 'absolute',
             borderTopWidth: 1,
             borderTopColor: '#D9E0DC',
+            shadowColor: '#000000',
+            shadowOffset: { width: 0, height: -1 },
+            shadowOpacity: 0.04,
+            shadowRadius: 3,
           },
           default: {
             borderTopWidth: 1,
             borderTopColor: '#D9E0DC',
             backgroundColor: '#FFFFFF',
+            elevation: 2,
           },
         }),
       }}
