@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, PanResponder, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { useTranslation } from 'react-i18next';
 import ProgressBar from './ProgressBar';
@@ -23,45 +23,160 @@ const getStepColor = (stepNumber) => {
 const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, progress }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { height, isSmallPhone, scale } = useResponsiveLayout();
+  const { width, height, isSmallPhone, scale } = useResponsiveLayout();
   const buttonSize = scale(100, 76, 112);
   const separatorHeight = scale(60, 42, 68);
   const stepCircleSize = scale(36, 30, 42);
   const stepColor = getStepColor(stepNumber);
   const bottomSpace = insets.bottom + progressBarHeight + (isSmallPhone ? 34 : 54);
+  const swipeX = useRef(new Animated.Value(0)).current;
+  const swipeThreshold = Math.min(Math.max(width * 0.24, 78), 120);
+  const hasAnsweredRef = useRef(false);
+
+  useEffect(() => {
+    hasAnsweredRef.current = false;
+    swipeX.setValue(0);
+  }, [question, swipeX]);
+
+  const answerWithSwipe = (answer) => {
+    if (hasAnsweredRef.current) return;
+    hasAnsweredRef.current = true;
+
+    Animated.timing(swipeX, {
+      toValue: answer ? width : -width,
+      duration: 180,
+      useNativeDriver: true,
+    }).start(() => {
+      swipeX.setValue(0);
+      onAnswer(answer);
+    });
+  };
+
+  const resetCardPosition = () => {
+    Animated.spring(swipeX, {
+      toValue: 0,
+      friction: 6,
+      tension: 80,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_, gestureState) =>
+      Math.abs(gestureState.dx) > 8 && Math.abs(gestureState.dx) > Math.abs(gestureState.dy) * 1.1,
+    onPanResponderTerminationRequest: () => false,
+    onPanResponderMove: (_, gestureState) => {
+      if (hasAnsweredRef.current) return;
+
+      swipeX.setValue(gestureState.dx);
+
+      if (gestureState.dx > swipeThreshold) {
+        answerWithSwipe(true);
+      } else if (gestureState.dx < -swipeThreshold) {
+        answerWithSwipe(false);
+      }
+    },
+    onPanResponderRelease: (_, gestureState) => {
+      if (hasAnsweredRef.current) return;
+
+      if (gestureState.dx > swipeThreshold) {
+        answerWithSwipe(true);
+        return;
+      }
+
+      if (gestureState.dx < -swipeThreshold) {
+        answerWithSwipe(false);
+        return;
+      }
+
+      resetCardPosition();
+    },
+    onPanResponderTerminate: () => {
+      if (!hasAnsweredRef.current) {
+        resetCardPosition();
+      }
+    },
+    onShouldBlockNativeResponder: () => true,
+  });
+
+  const cardRotation = swipeX.interpolate({
+    inputRange: [-width, 0, width],
+    outputRange: ['-9deg', '0deg', '9deg'],
+    extrapolate: 'clamp',
+  });
+  const yesOpacity = swipeX.interpolate({
+    inputRange: [8, Math.min(swipeThreshold, 58)],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  });
+  const noOpacity = swipeX.interpolate({
+    inputRange: [-Math.min(swipeThreshold, 58), -8],
+    outputRange: [1, 0],
+    extrapolate: 'clamp',
+  });
 
   return (
     <>
       <View style={[styles.container, { minHeight: height * 0.62 }]}>
         <View style={[styles.questionContent, { paddingTop: scale(10, 8, 18) }]}>
           <View style={styles.stepHeader}>
-            <View style={[
-              styles.stepCircle,
-              {
-                width: stepCircleSize,
-                height: stepCircleSize,
-                borderRadius: stepCircleSize / 2,
-                borderColor: stepColor,
-              },
-            ]}>
-            <ThemedText style={[styles.stepCircleText, { fontSize: scale(16, 14, 18) }]}>
-              {stepNumber}
-            </ThemedText>
+            <View style={styles.stepMetaRow}>
+              <View style={[
+                styles.stepCircle,
+                {
+                  width: stepCircleSize,
+                  height: stepCircleSize,
+                  borderRadius: stepCircleSize / 2,
+                  borderColor: stepColor,
+                },
+              ]}>
+                <ThemedText style={[styles.stepCircleText, { fontSize: scale(16, 14, 18) }]}>
+                  {stepNumber}
+                </ThemedText>
+              </View>
+              <ThemedText style={[styles.stepTotal, { fontSize: scale(14, 13, 16) }]}>
+                {t('OF')} {totalSteps}
+              </ThemedText>
             </View>
-            <ThemedText style={[styles.stepTotal, { fontSize: scale(14, 13, 16) }]}>
-              {t('OF')} {totalSteps}
-            </ThemedText>
             <ThemedText style={[styles.title, { fontSize: scale(17, 15, 20) }]}>
               {stepTitle}
             </ThemedText>
           </View>
-          <MarkdownLinkText
-            text={question}
-            style={[styles.question, { fontSize: scale(17, 15, 19), lineHeight: scale(25, 22, 29) }]}
-          />
+
+          <Animated.View
+            style={[
+              styles.questionCard,
+              {
+                minHeight: scale(178, 148, 218),
+                marginTop: scale(14, 10, 18),
+                transform: [
+                  { translateX: swipeX },
+                  { rotate: cardRotation },
+                ],
+              },
+            ]}
+            {...panResponder.panHandlers}
+          >
+            <Animated.View style={[styles.swipeBadge, styles.noSwipeBadge, { opacity: noOpacity }]}>
+              <ThemedText style={styles.noSwipeText}>{t('NO')}</ThemedText>
+            </Animated.View>
+            <Animated.View style={[styles.swipeBadge, styles.yesSwipeBadge, { opacity: yesOpacity }]}>
+              <ThemedText style={styles.yesSwipeText}>{t('YES')}</ThemedText>
+            </Animated.View>
+
+            <MarkdownLinkText
+              text={question}
+              style={[styles.question, { fontSize: scale(17, 15, 19), lineHeight: scale(25, 22, 29) }]}
+            />
+          </Animated.View>
         </View>
 
-        <View style={[styles.buttonContainer, { marginBottom: bottomSpace, gap: scale(40, 20, 48) }]}>
+        <View style={[styles.buttonContainer, {
+          marginTop: scale(18, 14, 26),
+          marginBottom: bottomSpace,
+          gap: scale(40, 20, 48),
+        }]}>
           <TouchableOpacity
             style={[styles.noButton, {
               width: buttonSize,
@@ -113,11 +228,59 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  questionCard: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#D3DED8',
+    borderRadius: 8,
+    backgroundColor: '#F8FBF8',
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+  },
+  swipeBadge: {
+    position: 'absolute',
+    top: 14,
+    borderWidth: 2,
+    borderRadius: 18,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    zIndex: 2,
+  },
+  noSwipeBadge: {
+    left: 14,
+    borderColor: '#345641',
+    backgroundColor: '#FFFFFF',
+  },
+  yesSwipeBadge: {
+    right: 14,
+    borderColor: '#345641',
+    backgroundColor: '#345641',
+  },
+  noSwipeText: {
+    color: '#345641',
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 13,
+    lineHeight: 17,
+  },
+  yesSwipeText: {
+    color: '#FFFFFF',
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 13,
+    lineHeight: 17,
+  },
   stepHeader: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
+  },
+  stepMetaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
   },
   stepCircle: {
     backgroundColor: 'white',
@@ -135,7 +298,6 @@ const styles = StyleSheet.create({
     color: '#345641',
     lineHeight: 19,
     fontFamily: 'Poppins_400Regular',
-    marginBottom: 2,
   },
   title: {
     flexShrink: 1,

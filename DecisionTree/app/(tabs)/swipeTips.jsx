@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemedView } from '@/components/ThemedView';
@@ -60,31 +60,29 @@ export default function SwipeTips() {
               <SwipeAnimation />
 
               <View style={[styles.buttonContainer, { gap: scale(40, 20, 44) }]}>
-            <TouchableOpacity
+            <View
               style={[styles.noButton, {
                 width: buttonSize,
                 height: buttonSize,
                 borderRadius: buttonSize / 2,
               }]}
-              activeOpacity={1}
-              accessibilityRole="button"
+              accessibilityRole="image"
             >
               <ThemedText style={styles.noButtonText}>{t('NO')}</ThemedText>
-            </TouchableOpacity>
+            </View>
 
             <View style={[styles.separator, { height: scale(60, 42, 66) }]} />
 
-            <TouchableOpacity
+            <View
               style={[styles.yesButton, {
                 width: buttonSize,
                 height: buttonSize,
                 borderRadius: buttonSize / 2,
               }]}
-              onPress={handleNext}
-              activeOpacity={0.8}
+              accessibilityRole="image"
             >
               <ThemedText style={styles.yesButtonText}>{t('YES')}</ThemedText>
-            </TouchableOpacity>
+            </View>
           </View>
 
               <NextButton onPress={handleNext} text={t('NEXT')} style={styles.nextButton} />
