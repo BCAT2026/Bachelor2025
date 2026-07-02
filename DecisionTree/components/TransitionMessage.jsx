@@ -9,6 +9,9 @@ import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 export default function TransitionMessage({ message, onNext, progress, buttonText }) {
     const { t } = useTranslation()
     const { scale } = useResponsiveLayout()
+    const [title, ...bodyParts] = String(message ?? '').split(/\n\s*\n/)
+    const body = bodyParts.join('\n\n')
+
   return (
     <ParallaxScrollView noPadding>
       <Image
@@ -21,25 +24,48 @@ export default function TransitionMessage({ message, onNext, progress, buttonTex
         accessibilityLabel={t('ALT_GREENICON')}
       />
 
-      <ThemedText type="title" style={[styles.text, { fontSize: scale(20, 17, 24) }]}>
-        {message}
+      <ThemedText type="title" style={[styles.title, { fontSize: scale(20, 17, 24) }]}>
+        {title}
       </ThemedText>
 
-      <View style={{ height: 30, marginBottom: 50, marginTop: 40 }}><ProgressBar progress={progress} accessibilityRole="progressbar" accessibilityValue={{min: 0, max: 100, now: progress}}/></View>
+      {body ? (
+        <ThemedText style={[styles.body, { fontSize: scale(17, 15, 19), lineHeight: scale(25, 22, 29) }]}>
+          {body}
+        </ThemedText>
+      ) : null}
 
-      <NextButton onPress={onNext} text={buttonText ?? t('NEXT')} style={{ marginTop: 32 }} />
+      <View style={styles.progressArea}>
+        <ProgressBar progress={progress} accessibilityRole="progressbar" accessibilityValue={{min: 0, max: 100, now: progress}}/>
+      </View>
+
+      <NextButton onPress={onNext} text={buttonText ?? t('NEXT')} style={styles.nextButton} />
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
+  title: {
     textAlign: 'center',
     fontSize: 20,
-    lineHeight: 24,
-    fontFamily: 'Poppins_400Regular',
-    marginBottom: 20,
+    lineHeight: 26,
+    fontFamily: 'Poppins_600SemiBold',
+    marginBottom: 16,
     paddingHorizontal: 24,
+  },
+  body: {
+    color: '#2E443E',
+    textAlign: 'center',
+    fontFamily: 'Poppins_400Regular',
+    marginBottom: 16,
+    paddingHorizontal: 24,
+  },
+  progressArea: {
+    height: 30,
+    marginTop: 38,
+    marginBottom: 28,
+  },
+  nextButton: {
+    marginTop: 12,
   },
   icon: {
     width: 80,

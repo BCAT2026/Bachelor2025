@@ -28,7 +28,7 @@ export default function ProgressTips() {
 
       <GestureRecognizer
         onSwipeRight={handleNext}
-        onSwipeLeft={() => router.push('/swipeTips')}
+        onSwipeLeft={() => router.back()}
         config={{ velocityThreshold: 0.3, directionalOffsetThreshold: 80 }}
         style={{ flex: 1 }}
       >
