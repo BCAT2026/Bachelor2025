@@ -24,11 +24,11 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { width, height, isSmallPhone, scale } = useResponsiveLayout();
-  const buttonSize = scale(100, 76, 112);
-  const separatorHeight = scale(60, 42, 68);
+  const buttonSize = scale(92, 68, 104);
+  const separatorHeight = scale(54, 38, 62);
   const stepCircleSize = scale(36, 30, 42);
   const stepColor = getStepColor(stepNumber);
-  const bottomSpace = insets.bottom + progressBarHeight + (isSmallPhone ? 34 : 54);
+  const bottomSpace = insets.bottom + progressBarHeight + (isSmallPhone ? 22 : 42);
   const swipeX = useRef(new Animated.Value(0)).current;
   const swipeThreshold = Math.min(Math.max(width * 0.24, 78), 120);
   const hasAnsweredRef = useRef(false);
@@ -111,8 +111,8 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
 
   return (
     <>
-      <View style={[styles.container, { minHeight: height * 0.62 }]}>
-        <View style={[styles.questionContent, { paddingTop: scale(10, 8, 18) }]}>
+      <View style={[styles.container, { minHeight: height * (isSmallPhone ? 0.56 : 0.62) }]}>
+        <View style={[styles.questionContent, { paddingTop: scale(8, 6, 16) }]}>
           <View style={styles.stepHeader}>
             <View style={styles.stepMetaRow}>
               <View style={[
@@ -137,7 +137,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
             </ThemedText>
           </View>
 
-          <View style={[styles.cardStage, { marginTop: scale(18, 14, 22) }]}>
+          <View style={[styles.cardStage, { marginTop: scale(14, 10, 20) }]}>
             <Animated.View style={[styles.swipeBadge, styles.noSwipeBadge, { opacity: noOpacity }]}>
               <ThemedText style={styles.noSwipeText}>{t('NO')}</ThemedText>
             </Animated.View>
@@ -149,7 +149,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
               style={[
                 styles.questionCard,
                 {
-                  minHeight: scale(178, 148, 218),
+                  minHeight: scale(164, 128, 210),
                   transform: [
                     { translateX: swipeX },
                     { rotate: cardRotation },
@@ -167,7 +167,7 @@ const Questions = ({ stepTitle, stepNumber, totalSteps, question, onAnswer, prog
         </View>
 
         <View style={[styles.buttonContainer, {
-          marginTop: scale(18, 14, 26),
+          marginTop: scale(16, 12, 22),
           marginBottom: bottomSpace,
           gap: scale(40, 20, 48),
         }]}>

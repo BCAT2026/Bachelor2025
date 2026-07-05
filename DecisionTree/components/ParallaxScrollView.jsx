@@ -1,23 +1,30 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, Platform, StatusBar, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
-export default function ParallaxScrollView({ children, noPadding = false, hideBack = false }) {
+export default function ParallaxScrollView({ children, noPadding = false, hideBack = false, scrollEnabled = true }) {
   const { horizontalPadding, contentMaxWidth } = useResponsiveLayout();
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = useBottomTabBarHeight();
+  const bottomPadding = tabBarHeight + Math.max(insets.bottom, 12) + 16;
   const contentStyle = noPadding
     ? styles.noPadding
     : [styles.content, { paddingHorizontal: horizontalPadding }];
 
   return (
     <ThemedView style={styles.root}>
-      <SafeAreaView style={styles.safeArea}>
-      </SafeAreaView>
+      <View style={[styles.safeArea, { height: insets.top }]} />
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[contentStyle, styles.scrollContent]}
+        contentContainerStyle={[contentStyle, styles.scrollContent, { paddingBottom: bottomPadding }]}
         keyboardShouldPersistTaps="handled"
+        scrollEnabled={scrollEnabled}
+        alwaysBounceVertical={scrollEnabled}
+        bounces={scrollEnabled}
       >
         <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
           {children}
@@ -33,14 +40,12 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 24 : 0,
   },
   scroll: {
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
-    paddingBottom: 40,
   },
   inner: {
     width: '100%',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,7 +9,6 @@ import NextButton from '@/components/NextButton';
 import Header from '@/components/Header';
 import { useTranslation } from 'react-i18next';
 import SwipeAnimation from '@/components/SwipeAnimation';
-import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 
@@ -19,6 +18,9 @@ export default function SwipeTips() {
   const insets = useSafeAreaInsets();
   const { horizontalPadding, contentMaxWidth, scale, isSmallPhone } = useResponsiveLayout();
   const buttonSize = scale(100, 76, 108);
+  const [viewportHeight, setViewportHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(0);
+  const shouldScroll = contentHeight > viewportHeight + 8;
 
   const handleNext = async () => {
     try {
@@ -33,33 +35,31 @@ export default function SwipeTips() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <GestureRecognizer
-        onSwipeRight={handleNext}
-        onSwipeLeft={() => router.back()}
-        config={{ velocityThreshold: 0.3, directionalOffsetThreshold: 80 }}
-        style={{ flex: 1 }}
-        accessibilityRole="image"
-        accessibilityLabel={t('ALT_SWIPEHAND')}
-      >
-        <ThemedView style={styles.root}>
-          <ScrollView
-            contentContainerStyle={[
-              styles.container,
-              {
-                paddingTop: insets.top + (isSmallPhone ? 18 : 34),
-                paddingHorizontal: horizontalPadding,
-              },
-            ]}
-          >
-            <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
-              <Header />
-              <ThemedText style={styles.subtitle}>{t('TITLE_GUIDELINES')}</ThemedText>
+      <ThemedView style={styles.root}>
+        <ScrollView
+          alwaysBounceVertical={false}
+          bounces={false}
+          contentContainerStyle={[
+            styles.container,
+            {
+              paddingTop: insets.top + (isSmallPhone ? 18 : 34),
+              paddingHorizontal: horizontalPadding,
+            },
+          ]}
+          onContentSizeChange={(_, height) => setContentHeight(height)}
+          onLayout={(event) => setViewportHeight(event.nativeEvent.layout.height)}
+          overScrollMode="never"
+          scrollEnabled={shouldScroll}
+        >
+          <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
+            <Header />
+            <ThemedText style={styles.subtitle}>{t('TITLE_GUIDELINES')}</ThemedText>
 
-              <TipsBox subtitle={t('TIP1')} />
+            <TipsBox subtitle={t('TIP1')} />
 
-              <SwipeAnimation />
+            <SwipeAnimation />
 
-              <View style={[styles.buttonContainer, { gap: scale(40, 20, 44) }]}>
+            <View style={[styles.buttonContainer, { gap: scale(40, 20, 44) }]}>
             <View
               style={[styles.noButton, {
                 width: buttonSize,
@@ -85,11 +85,10 @@ export default function SwipeTips() {
             </View>
           </View>
 
-              <NextButton onPress={handleNext} text={t('NEXT')} style={styles.nextButton} />
-            </View>
-          </ScrollView>
-        </ThemedView>
-      </GestureRecognizer>
+            <NextButton onPress={handleNext} text={t('NEXT')} style={styles.nextButton} />
+          </View>
+        </ScrollView>
+      </ThemedView>
     </>
   );
 }
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'flex-start',
     backgroundColor: BG,
-    paddingBottom: 32,
+    paddingBottom: 12,
   },
   inner: {
     width: '100%',
