@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import en from './en.json';
 import no from './no.json';
+import { getLocales } from 'expo-localization';
 
 export const LANGUAGE_PREFERENCE_KEY = 'LANGUAGE_PREFERENCE';
 
@@ -19,8 +20,12 @@ const getUserPreferredLanguage = async () => {
     // Bruk enhetsspråk dersom lagret språkvalg ikke kan leses.
   }
 
-  const deviceLanguage = typeof navigator !== 'undefined' ? navigator.language : 'en';
-  return deviceLanguage.startsWith('no') ? 'no' : 'en';
+  const languageCode =
+  getLocales()[0]?.languageCode?.toLowerCase() ?? 'en';
+
+return ['no', 'nb', 'nn'].includes(languageCode)
+  ? 'no'
+  : 'en';
 };
 
 const initializeI18n = async () => {
