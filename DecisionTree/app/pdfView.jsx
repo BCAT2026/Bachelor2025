@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import { Alert, Linking, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import Constants from 'expo-constants';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import Header from '@/components/Header';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
 import pdfFiles from './pdfFiles';
 import { useTranslation } from 'react-i18next';
 
@@ -78,28 +78,19 @@ export default function PdfView() {
 
   if (!pdfUri) {
     return (
-      <ThemedView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="#345641" />
-          </TouchableOpacity>
-          <ThemedText style={styles.title}>PDF ikke funnet</ThemedText>
-        </View>
+      <ParallaxScrollView>
+        <Header onBackPress={() => router.back()} />
         <View style={styles.emptyState}>
+          <ThemedText style={styles.title}>PDF ikke funnet</ThemedText>
           <ThemedText style={styles.emptyText}>{selectedFile}</ThemedText>
         </View>
-      </ThemedView>
+      </ParallaxScrollView>
     );
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#345641" />
-        </TouchableOpacity>
-        <ThemedText style={styles.title}>{selectedFile}</ThemedText>
-      </View>
+    <ParallaxScrollView>
+      <Header onBackPress={() => router.back()} />
 
       <View style={styles.openState}>
         <ThemedText style={styles.openText}>PDF-en åpnes i nettleseren.</ThemedText>
@@ -107,30 +98,16 @@ export default function PdfView() {
           <ThemedText style={styles.openButtonText}>Åpne PDF</ThemedText>
         </TouchableOpacity>
       </View>
-    </ThemedView>
+    </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E5ECE5',
-  },
-  backButton: {
-    marginRight: 10,
-  },
   title: {
-    flex: 1,
     fontSize: 16,
     fontFamily: 'Poppins_600SemiBold',
     color: '#345641',
+    marginBottom: 10,
   },
   emptyState: {
     flex: 1,
