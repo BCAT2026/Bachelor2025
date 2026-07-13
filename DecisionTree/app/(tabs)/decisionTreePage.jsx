@@ -375,7 +375,7 @@ const handleAnswer = (answer) => {
 
 
   return (
-    <ParallaxScrollView>
+    <ParallaxScrollView scrollEnabled={false}>
       <Header onBackPress={handleGoBack} />
 
  

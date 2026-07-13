@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   progressText: {
     textAlign: 'center',
-    color: '#3C5538',
+    color: '#1A3126',
     fontFamily: 'Poppins_600SemiBold',
     fontSize: 13,
     lineHeight: 17,

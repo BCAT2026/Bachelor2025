@@ -22,21 +22,21 @@ export default function TipsBox({ title = 'Tips!', subtitle }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E8F5E9',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 15,
+    backgroundColor: '#F8FBF8',
+    paddingVertical: 18,
+    paddingHorizontal: 16,
+    borderRadius: 8,
     alignItems: 'center',
-    borderWidth: 3,
-    borderColor: '#2E443E',
+    borderWidth: 1,
+    borderColor: '#D3DED8',
     marginBottom: 10,
     width: '100%',
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold', 
+    fontFamily: 'Poppins_600SemiBold',
     color: '#2E443E',
-    marginBottom: 2,
+    marginBottom: 8,
   },
   subtitle: {
     color: '#2E443E', 
