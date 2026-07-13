@@ -5,7 +5,7 @@ type LogEvent = {
 }
 
 export async function logEvent(event: LogEvent) {
-  const response = await fetch('/api/log', {
+  const response = await fetch('https://bcat.expo.app/api/log', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
