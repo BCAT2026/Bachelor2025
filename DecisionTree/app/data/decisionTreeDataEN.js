@@ -22,7 +22,7 @@ const decisionTreeDataEN = [
           label: 'No',
           feedbackType: 'red',
           feedbackMessage:
-            'It is not recommended to measure BC of athletes under the age of 18 years old unless indicated for medical purposes or other exceptional circumstances.\n \nEarly initiation of body composition measurements can increase the risk of athletes becoming overly focused on these aspects, which in turn may lead to body dissatisfaction and a disordered relationship with food and body image.\n \nYoung athletes will benefit much more from focusing on the fundamental elements of training, nutrition and recovery to improve their sport specific technique, physical capacity and mental robustness, hence increase their performance abilities.',
+            'It is not recommended to measure BC of athletes under the age of 18 years old unless indicated for medical purposes or other exceptional circumstances.\n \nEarly initiation of body composition measurements can increase the risk of athletes becoming overly focused on these aspects, which in turn may lead to body dissatisfaction and a disordered relationship with food and body image.\n \nYoung athletes will benefit much more from focusing on the fundamental elements of training, nutrition and recovery to improve their sport specific technique, physical capacity and mental robustness, hence increase their performance abilities.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
       ],
     },
@@ -36,7 +36,7 @@ const decisionTreeDataEN = [
           label: 'No',
           feedbackType: 'red',
           feedbackMessage:
-            'It is not recommended to measure BC of athletes competing below Tier 3.\n \nThese athletes are less likely to have the appropriate support in place and will benefit from focusing on the fundamental elements of training, nutrition and recovery to improve their sport specific technique, physical capacity and mental robustness, hence increase their performance abilities.',
+            'It is not recommended to measure BC of athletes competing below Tier 3.\n \nThese athletes are less likely to have the appropriate support in place and will benefit from focusing on the fundamental elements of training, nutrition and recovery to improve their sport specific technique, physical capacity and mental robustness, hence increase their performance abilities.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
       ],
     },
@@ -63,7 +63,7 @@ const decisionTreeDataEN = [
         {
           label: 'No',
           feedbackType: 'red',
-          feedbackMessage: 'It is not recommended to measure BC.',
+          feedbackMessage: 'It is not recommended to measure BC.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
       ],
     },
@@ -96,7 +96,7 @@ const decisionTreeDataEN = [
           label: 'No',
           feedbackType: 'red',
           feedbackMessage:
-            'If athletes cannot access the support or services of the individuals above, BC assessment or manipulation is not recommended.',
+            'If athletes cannot access the support or services of the individuals above, BC assessment or manipulation is not recommended.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
       ],
     },
@@ -110,7 +110,7 @@ const decisionTreeDataEN = [
           label: 'No',
           feedbackType: 'red',
           feedbackMessage:
-            'There is no need for the BC assessment, reinforce nutrition messaging – prioritise fuelling and recovery while maintaining health.',
+            'There is no need for the BC assessment, reinforce nutrition messaging – prioritise fuelling and recovery while maintaining health.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
       ],
     },
@@ -124,7 +124,7 @@ const decisionTreeDataEN = [
           label: 'No',
           feedbackType: 'red',
           feedbackMessage:
-            'Either assess athlete readiness and revisit this question or do not proceed with any BC measurement.',
+            'Either assess athlete readiness and revisit this question or do not proceed with any BC measurement.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
       ],
     },
@@ -137,7 +137,7 @@ const decisionTreeDataEN = [
           label: 'Yes',
           feedbackType: 'red',
           feedbackMessage:
-            'It is not recommended to measure BC, and it should only be considered for medical purposes. Concerns should be raised with the relevant support staff and the athlete should be signposted to appropriate support.',
+            'It is not recommended to measure BC, and it should only be considered for medical purposes. Concerns should be raised with the relevant support staff and the athlete should be signposted to appropriate support.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
         },
         {
           label: 'No',
@@ -167,7 +167,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'BC assessment should not be conducted until the process has been clearly outlined to the athlete. This ensures that the athlete is properly prepared — regarding rest, food intake, and other relevant factors — and is fully informed about the nature of the assessment and the type of insights it provides into their health status.',
+              'BC assessment should not be conducted until the process has been clearly outlined to the athlete. This ensures that the athlete is properly prepared — regarding rest, food intake, and other relevant factors — and is fully informed about the nature of the assessment and the type of insights it provides into their health status.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -199,7 +199,7 @@ const decisionTreeDataEN = [
             label: 'Yes',
             feedbackType: 'red',
             feedbackMessage:
-              'It is not recommended to conduct the BC assessment as there is no context for the results.',
+              'It is not recommended to conduct the BC assessment as there is no context for the results.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
           {
             label: 'No',
@@ -243,7 +243,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Athletes should always retain the choice of whether the BC assessment is conducted. If they do not have a choice, the assessment should not be conducted.\n\nExamples of a lack of choice may include the athlete being removed from the team, being excluded from upcoming competitions, or experiencing negative attention or neglect from coaches.',
+              'Athletes should always retain the choice of whether the BC assessment is conducted. If they do not have a choice, the assessment should not be conducted.\n\nExamples of a lack of choice may include the athlete being removed from the team, being excluded from upcoming competitions, or experiencing negative attention or neglect from coaches.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -262,7 +262,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Without explicit consent from the athlete which is documented, the BC assessment should not be conducted.',
+              'Without explicit consent from the athlete which is documented, the BC assessment should not be conducted.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -303,7 +303,7 @@ const decisionTreeDataEN = [
             label: 'Yes',
             feedbackType: 'red',
             feedbackMessage:
-              'BC measurements should not be taken using this method if there is something more appropriate available.',
+              'BC measurements should not be taken using this method if there is something more appropriate available.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
           {
             label: 'No',
@@ -330,7 +330,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Without training or these professional skills, BC measurements should not be taken.',
+              'Without training or these professional skills, BC measurements should not be taken.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -355,7 +355,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with the measurement until the athlete has been informed of what it involves and has had the chance to ask any questions.',
+              'Do not proceed with the measurement until the athlete has been informed of what it involves and has had the chance to ask any questions.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -372,7 +372,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with the measurement unless you are following a standardised protocol which is in place.\n\nFor DXA we recommend the following procedures: [DXA](pdf:dxa.pdf). See Table 3 and 4 specifically.',
+              'Do not proceed with the measurement unless you are following a standardised protocol which is in place.\n\nFor DXA we recommend the following procedures: [DXA](pdf:dxa.pdf). See Table 3 and 4 specifically.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -389,7 +389,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with the measurement unless the athlete has been given this option.',
+              'Do not proceed with the measurement unless the athlete has been given this option.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -406,7 +406,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with the assessment unless you can move to a private space with controlled access.',
+              'Do not proceed with the assessment unless you can move to a private space with controlled access.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -461,7 +461,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not conduct the assessment if you are unable to keep the data secure and handle it as confidential medical data.',
+              'Do not conduct the assessment if you are unable to keep the data secure and handle it as confidential medical data.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -507,7 +507,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not conduct the assessment if this level of interpretation and analysis is not possible.',
+              'Do not conduct the assessment if this level of interpretation and analysis is not possible.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -532,7 +532,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not report the data until the results are in an accessible format that integrates precision error data and individual results.',
+              'Do not report the data until the results are in an accessible format that integrates precision error data and individual results.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -551,7 +551,7 @@ const decisionTreeDataEN = [
             label: 'Yes',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not report the data until normative or reference values are removed.\n\nApart from bone mass (Z-score and T-score), there is little evidence to support the existence of universal optimal targets for fat mass and muscle mass in individuals.',
+              'Do not report the data until normative or reference values are removed.\n\nApart from bone mass (Z-score and T-score), there is little evidence to support the existence of universal optimal targets for fat mass and muscle mass in individuals.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -576,7 +576,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with assessment unless athletes have control of who has data access.',
+              'Do not proceed with assessment unless athletes have control of who has data access.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -641,7 +641,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed. A timeline for monitoring must be agreed before any future assessments take place, and it must align with the agreed intervention.',
+              'Do not proceed. A timeline for monitoring must be agreed before any future assessments take place, and it must align with the agreed intervention.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -658,7 +658,7 @@ const decisionTreeDataEN = [
             label: 'Yes',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with a higher number of assessments, unless there is specific reasoning. Reduce the number of assessments and align with the expected response.',
+              'Do not proceed with a higher number of assessments, unless there is specific reasoning. Reduce the number of assessments and align with the expected response.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -675,7 +675,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with additional monitoring. Athletes should not have BC assessments completed if they do not have adequate support from trained and suitable personnel.',
+              'Do not proceed with additional monitoring. Athletes should not have BC assessments completed if they do not have adequate support from trained and suitable personnel.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
@@ -694,7 +694,7 @@ const decisionTreeDataEN = [
             label: 'No',
             feedbackType: 'red',
             feedbackMessage:
-              'Do not proceed with any assessment until readiness has been checked.\n\nPlease return to the beginning of this process for each new assessment.',
+              'Do not proceed with any assessment until readiness has been checked.\n\nPlease return to the beginning of this process for each new assessment.\n\nREDs resource: [Stars As You Are](https://starasyouare.com/en/).',
           },
         ],
       },
