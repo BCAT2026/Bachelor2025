@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "BCAT",
-    "slug": "bcat",
+    "name": "DecisionTree",
+    "slug": "DecisionTree",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "assetBundlePatterns": [
       "assets/**/*"
     ],
-    "scheme": "bcat",
+    "scheme": "myapp",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {

@@ -337,7 +337,7 @@ const DecisionTreePage = () => {
 
 
   return (
-    <ParallaxScrollView>
+    <ParallaxScrollView scrollEnabled={false}>
       <Header onBackPress={handleGoBack} />
 
  

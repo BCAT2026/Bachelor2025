@@ -8,7 +8,6 @@ import NextButton from '@/components/NextButton';
 import Header from '@/components/Header';
 import ProgressBar from '../../components/ProgressBar';
 import { useTranslation } from 'react-i18next';
-import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 
@@ -26,24 +25,16 @@ export default function ProgressTips() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <GestureRecognizer
-        onSwipeRight={handleNext}
-        onSwipeLeft={() => router.back()}
-        config={{ velocityThreshold: 0.3, directionalOffsetThreshold: 80 }}
-        style={{ flex: 1 }}
-      >
-        
-        
-        <ThemedView style={styles.root}>
-          <ScrollView
-            contentContainerStyle={[
-              styles.container,
-              {
-                paddingTop: insets.top + (isSmallPhone ? 18 : 34),
-                paddingHorizontal: horizontalPadding,
-              },
-            ]}
-          >
+      <ThemedView style={styles.root}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.container,
+            {
+              paddingTop: insets.top + (isSmallPhone ? 18 : 34),
+              paddingHorizontal: horizontalPadding,
+            },
+          ]}
+        >
           <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
           {/* TOPP */}
           <View style={styles.topArea}>
@@ -138,9 +129,8 @@ export default function ProgressTips() {
             <NextButton onPress={handleNext} text={t('NEXT')} accessibilityRole='button'/>
           </View>
           </View>
-          </ScrollView>
-        </ThemedView>
-      </GestureRecognizer>
+        </ScrollView>
+      </ThemedView>
     </>
   );
 }
