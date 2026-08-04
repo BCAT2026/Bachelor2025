@@ -6,14 +6,6 @@ const pdfFiles = {
     asset: require('../assets/PDF/ADE_en.pdf'),
     fallbackUri: `${pdfBaseUrl}/ADE_en.pdf`,
   },
-  'BAS-2_en.pdf': {
-    asset: require('../assets/PDF/BAS-2_en.pdf'),
-    fallbackUri: `${pdfBaseUrl}/BAS-2_en.pdf`,
-  },
-  'BAS-2_no.pdf': {
-    asset: require('../assets/PDF/BAS-2_no.pdf'),
-    fallbackUri: `${pdfBaseUrl}/BAS-2_no.pdf`,
-  },
   'dxa.pdf': {
     asset: require('../assets/PDF/dxa.pdf'),
     fallbackUri: `${pdfBaseUrl}/dxa.pdf`,

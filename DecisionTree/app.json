@@ -6,7 +6,13 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "assetBundlePatterns": [
-      "assets/**/*"
+      "assets/fonts/*",
+      "assets/images/*",
+      "assets/PDF/ADE_en.pdf",
+      "assets/PDF/dxa.pdf",
+      "assets/PDF/ede-q_EN.pdf",
+      "assets/PDF/ede-q_NO.pdf",
+      "assets/PDF/metodetabell.pdf"
     ],
     "scheme": "myapp",
     "userInterfaceStyle": "light",
