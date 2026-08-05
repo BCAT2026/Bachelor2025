@@ -45,6 +45,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6b6a2185-ea7d-45d4-a916-0b12ec1c4f81"
+      }
+    },
+    "owner": "bcat2026"
   }
 }

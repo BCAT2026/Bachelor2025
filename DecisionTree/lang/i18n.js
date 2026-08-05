@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getLocales } from 'expo-localization';
 import en from './en.json';
 import no from './no.json';
 
@@ -19,7 +20,7 @@ const getUserPreferredLanguage = async () => {
     // Bruk enhetsspråk dersom lagret språkvalg ikke kan leses.
   }
 
-  const deviceLanguage = typeof navigator !== 'undefined' ? navigator.language : 'en';
+  const deviceLanguage = getLocales()[0]?.languageCode ?? 'en';
   return deviceLanguage.startsWith('no') ? 'no' : 'en';
 };
 
