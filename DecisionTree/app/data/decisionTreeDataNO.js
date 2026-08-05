@@ -22,7 +22,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Det anbefales ikke å måle kroppssammensetning (BC) hos utøvere under 18 år, med mindre det foreligger medisinske årsaker eller andre unntakstilfeller.\n \nTidlig igangsettelse med veiing og måling av kroppssammensetning kan øke risikoen for at utøveren blir overopptatt av disse forholdene, noe som igjen kan føre til kroppsmisnøye og et forstyrret forhold til mat og kropp.\n \nYngre utøvere vil ha større utbytte av å fokusere på grunnleggende elementer innen trening, ernæring og restitusjon for å forbedre idrettsspesifikk teknikk, fysisk kapasitet og mental robusthet, og dermed øke prestasjonsevnen på en trygg og bærekraftig måte.',
+          'Det anbefales ikke å måle kroppssammensetning (BC) hos utøvere under 18 år, med mindre det foreligger medisinske årsaker eller andre unntakstilfeller.\n \nTidlig igangsettelse med veiing og måling av kroppssammensetning kan øke risikoen for at utøveren blir overopptatt av disse forholdene, noe som igjen kan føre til kroppsmisnøye og et forstyrret forhold til mat og kropp.\n \nYngre utøvere vil ha større utbytte av å fokusere på grunnleggende elementer innen trening, ernæring og restitusjon for å forbedre idrettsspesifikk teknikk, fysisk kapasitet og mental robusthet, og dermed øke prestasjonsevnen på en trygg og bærekraftig måte.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -36,7 +36,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Det anbefales ikke å måle BC hos utøvere som konkurrerer under nasjonalt nivå.\n \nUtøvere under nasjonalt nivå har mindre sannsynlighet for å ha nødvendig støtteapparat tilgjengelig, og vil ha større utbytte av å fokusere på grunnleggende elementer innen trening, ernæring og restitusjon for å forbedre idrettsspesifikk teknikk, fysisk kapasitet og mental robusthet, og dermed øke prestasjonsevnen.',
+          'Det anbefales ikke å måle BC hos utøvere som konkurrerer under nasjonalt nivå.\n \nUtøvere under nasjonalt nivå har mindre sannsynlighet for å ha nødvendig støtteapparat tilgjengelig, og vil ha større utbytte av å fokusere på grunnleggende elementer innen trening, ernæring og restitusjon for å forbedre idrettsspesifikk teknikk, fysisk kapasitet og mental robusthet, og dermed øke prestasjonsevnen.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -44,7 +44,7 @@ const decisionTreeDataNO = [
     id: 'q4',
     step: 1,
     question:
-      'Er det bekymringer knyttet til spiseatferd eller negativt kroppsbilde? Det kan være nyttig å benytte validerte ressurser: [EDE-Q](pdf:ede-q_NO.pdf), [ADE](pdf:ADE_en.pdf) eller [BAS-2](pdf:BAS-2_no.pdf).',
+      'Er det bekymringer knyttet til spiseatferd eller negativt kroppsbilde? Det kan være nyttig å benytte validerte ressurser som [EDE-Q](pdf:ede-q_NO.pdf) eller [ADE](pdf:ADE_en.pdf).',
     options: [
       { label: 'Ja', next: 'q5' },
       { label: 'Nei', next: 'q6' },
@@ -63,7 +63,7 @@ const decisionTreeDataNO = [
       {
         label: 'Nei',
         feedbackType: 'red',
-        feedbackMessage: 'Det anbefales ikke å måle BC.',
+        feedbackMessage: 'Det anbefales ikke å måle BC.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -96,7 +96,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Dersom utøveren ikke har tilgang til støtte eller tjenester fra fagpersonene nevnt ovenfor, anbefales det ikke å gjennomføre vurdering eller endring av BC.',
+          'Dersom utøveren ikke har tilgang til støtte eller tjenester fra fagpersonene nevnt ovenfor, anbefales det ikke å gjennomføre vurdering eller endring av BC.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -110,7 +110,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Det er ikke behov for vurdering av BC. Forsterk budskapet om ernæring – prioriter energitilførsel og restitusjon med fokus på helse.',
+          'Det er ikke behov for vurdering av BC. Forsterk budskapet om ernæring – prioriter energitilførsel og restitusjon med fokus på helse.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -124,7 +124,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Vurder om utøveren er tilstrekkelig forberedt og egnet for å gjennomføre en BC-vurdering, og gå tilbake til dette spørsmålet, eller ikke gjennomfør noen måling av BC.',
+          'Vurder om utøveren er tilstrekkelig forberedt og egnet for å gjennomføre en BC-vurdering, og gå tilbake til dette spørsmålet, eller ikke gjennomfør noen måling av BC.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -137,7 +137,7 @@ const decisionTreeDataNO = [
         label: 'Ja',
         feedbackType: 'red',
         feedbackMessage:
-          'Det anbefales ikke å måle BC. Det bør kun vurderes dersom det foreligger medisinske grunner. Bekymringene bør tas opp med relevant støtteapparat, og utøveren bør henvises til riktig støtte.',
+          'Det anbefales ikke å måle BC. Det bør kun vurderes dersom det foreligger medisinske grunner. Bekymringene bør tas opp med relevant støtteapparat, og utøveren bør henvises til riktig støtte.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
       {
         label: 'Nei',
@@ -167,7 +167,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'BC-vurdering skal ikke gjennomføres før prosessen er tydelig forklart for utøveren. Dette sikrer at utøveren møter riktig forberedt med hensyn til blant annet hvile og matinntak før måling, men også at utøveren er fullt informert om målingen som gjøres og hva slags innsikt dette gir i kroppens helsetilstand.',
+          'BC-vurdering skal ikke gjennomføres før prosessen er tydelig forklart for utøveren. Dette sikrer at utøveren møter riktig forberedt med hensyn til blant annet hvile og matinntak før måling, men også at utøveren er fullt informert om målingen som gjøres og hva slags innsikt dette gir i kroppens helsetilstand.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -199,7 +199,7 @@ const decisionTreeDataNO = [
         label: 'Ja',
         feedbackType: 'red',
         feedbackMessage:
-          'Det anbefales ikke å gjennomføre BC-vurdering isolert, da det ikke finnes kontekst for å forstå og tolke resultatene.',
+          'Det anbefales ikke å gjennomføre BC-vurdering isolert, da det ikke finnes kontekst for å forstå og tolke resultatene.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
       {
         label: 'Nei',
@@ -243,7 +243,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Utøvere skal alltid ha valgfrihet. Dersom det ikke er tilfellet, skal vurderingen ikke gjennomføres.\n\nEksempler på manglende valgfrihet kan være at utøveren blir tatt ut av laget, ikke får delta i kommende konkurranser, eller opplever negativ oppmerksomhet eller neglisjering fra trenere.',
+          'Utøvere skal alltid ha valgfrihet. Dersom det ikke er tilfellet, skal vurderingen ikke gjennomføres.\n\nEksempler på manglende valgfrihet kan være at utøveren blir tatt ut av laget, ikke får delta i kommende konkurranser, eller opplever negativ oppmerksomhet eller neglisjering fra trenere.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -262,7 +262,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Uten eksplisitt dokumentert samtykke fra utøveren skal vurderingen ikke gjennomføres.',
+          'Uten eksplisitt dokumentert samtykke fra utøveren skal vurderingen ikke gjennomføres.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -303,7 +303,7 @@ const decisionTreeDataNO = [
         label: 'Ja',
         feedbackType: 'red',
         feedbackMessage:
-          'Vurdering av BC bør ikke gjennomføres med denne metoden dersom en mer egnet metode er tilgjengelig.',
+          'Vurdering av BC bør ikke gjennomføres med denne metoden dersom en mer egnet metode er tilgjengelig.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
       {
         label: 'Nei',
@@ -330,7 +330,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Uten opplæring eller nødvendige ferdigheter skal BC-målinger ikke gjennomføres.',
+          'Uten opplæring eller nødvendige ferdigheter skal BC-målinger ikke gjennomføres.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -354,7 +354,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gå videre med vurderingen før utøveren har blitt informert og har hatt mulighet til å stille spørsmål.',
+          'Ikke gå videre med vurderingen før utøveren har blitt informert og har hatt mulighet til å stille spørsmål.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -371,7 +371,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gjennomfør vurderingen med mindre du følger en etablert standardisert protokoll.\n\nVed DXA anbefaler vi følgende prosedyrer: [DXA](pdf:dxa.pdf). Se spesielt tabell 3 og 4.',
+          'Ikke gjennomfør vurderingen med mindre du følger en etablert standardisert protokoll.\n\nVed DXA anbefaler vi følgende prosedyrer: [DXA](pdf:dxa.pdf). Se spesielt tabell 3 og 4.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -388,7 +388,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gjennomfør vurderingen uten at dette tilbudet er gitt.',
+          'Ikke gjennomfør vurderingen uten at dette tilbudet er gitt.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -405,7 +405,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gjennomfør vurderingen med mindre dere kan flytte dere til et privat rom med kontrollert tilgang.',
+          'Ikke gjennomfør vurderingen med mindre dere kan flytte dere til et privat rom med kontrollert tilgang.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -460,7 +460,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gjennomfør vurderingen dersom du ikke kan sikre at dataene behandles konfidensielt som medisinske opplysninger.',
+          'Ikke gjennomfør vurderingen dersom du ikke kan sikre at dataene behandles konfidensielt som medisinske opplysninger.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -505,7 +505,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gjennomfør vurderingen dersom denne graden av tolkning og analyse ikke er mulig.',
+          'Ikke gjennomfør vurderingen dersom denne graden av tolkning og analyse ikke er mulig.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -530,7 +530,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke rapporter dataene før resultatene er tilgjengelige i et forståelig format som inkluderer både presisjonsfeil og tidligere individuelle resultater.',
+          'Ikke rapporter dataene før resultatene er tilgjengelige i et forståelig format som inkluderer både presisjonsfeil og tidligere individuelle resultater.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -549,7 +549,7 @@ const decisionTreeDataNO = [
         label: 'Ja',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke rapporter dataene før normative eller referanseverdier er fjernet.\n\nBortsett fra beinmasse (Z-score og T-score) er det lite grunnlag for å si at det finnes universale optimale mål på fettmasse og muskelmasse for enkeltindivider.',
+          'Ikke rapporter dataene før normative eller referanseverdier er fjernet.\n\nBortsett fra beinmasse (Z-score og T-score) er det lite grunnlag for å si at det finnes universale optimale mål på fettmasse og muskelmasse for enkeltindivider.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -573,7 +573,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gå videre med vurderingen dersom utøveren ikke har kontroll over hvem som har tilgang til dataene.',
+          'Ikke gå videre med vurderingen dersom utøveren ikke har kontroll over hvem som har tilgang til dataene.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -635,7 +635,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gå videre. En plan for oppfølging må være på plass før fremtidige vurderinger, og den må være tilpasset den intervensjonen man har blitt enige om.',
+          'Ikke gå videre. En plan for oppfølging må være på plass før fremtidige vurderinger, og den må være tilpasset den intervensjonen man har blitt enige om.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -648,7 +648,7 @@ const decisionTreeDataNO = [
         label: 'Ja',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gå videre med et høyere antall vurderinger, med mindre det finnes spesifikke grunner. Reduser antallet vurderinger og tilpass det forventet respons.',
+          'Ikke gå videre med et høyere antall vurderinger, med mindre det finnes spesifikke grunner. Reduser antallet vurderinger og tilpass det forventet respons.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
       {
         label: 'Nei',
@@ -669,7 +669,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gå videre med videre oppfølging. Utøvere bør ikke gjennomføre BC-vurderinger uten tilstrekkelig støtte fra kvalifiserte fagpersoner.',
+          'Ikke gå videre med videre oppfølging. Utøvere bør ikke gjennomføre BC-vurderinger uten tilstrekkelig støtte fra kvalifiserte fagpersoner.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },
@@ -688,7 +688,7 @@ const decisionTreeDataNO = [
         label: 'Nei',
         feedbackType: 'red',
         feedbackMessage:
-          'Ikke gå videre før du har vurdert om utøveren er egnet og klar for vurderingen.\n\nGå tilbake til begynnelsen av prosessen for hver nye vurdering.',
+          'Ikke gå videre før du har vurdert om utøveren er egnet og klar for vurderingen.\n\nGå tilbake til begynnelsen av prosessen for hver nye vurdering.\n\nRessurs om REDs: [Stars As You Are](https://starasyouare.com/en/).',
       },
     ],
   },

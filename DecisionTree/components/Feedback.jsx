@@ -48,7 +48,7 @@ export default function Feedback({ feedbackType = 'green', message = '', onNext,
   }
 
   return (
-    <ParallaxScrollView noPadding>
+    <ParallaxScrollView noPadding bottomPaddingExtra={48}>
       {showFeedback && (
         <View style={styles.lineWrapper}>
           <View style={[styles.curvedLine, { backgroundColor: color }]} />

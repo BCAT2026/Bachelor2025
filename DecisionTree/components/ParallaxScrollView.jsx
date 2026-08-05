@@ -4,10 +4,16 @@ import { ThemedView } from '@/components/ThemedView';
 import { useResponsiveLayout } from '@/hooks/useResponsiveLayout';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function ParallaxScrollView({ children, noPadding = false, hideBack = false, scrollEnabled = true }) {
+export default function ParallaxScrollView({
+  children,
+  noPadding = false,
+  hideBack = false,
+  scrollEnabled = true,
+  bottomPaddingExtra = 96,
+}) {
   const { horizontalPadding, contentMaxWidth } = useResponsiveLayout();
   const insets = useSafeAreaInsets();
-  const bottomPadding = Math.max(insets.bottom, 12) + 96;
+  const bottomPadding = Math.max(insets.bottom, 12) + bottomPaddingExtra;
   const contentStyle = noPadding
     ? styles.noPadding
     : [styles.content, { paddingHorizontal: horizontalPadding }];
