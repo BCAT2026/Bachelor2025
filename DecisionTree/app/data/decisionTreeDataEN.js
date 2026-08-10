@@ -44,7 +44,7 @@ const decisionTreeDataEN = [
       id: 'q4',
       step: 1,
       question:
-        'Are there concerns around eating behaviours or physique/body image anxiety? It may be useful to use validated resources: [EDE-Q](pdf:ede-q_EN.pdf), [ADE](pdf:ADE_en.pdf) or [BAS-2](pdf:BAS-2_en.pdf).',
+        'Are there concerns around eating behaviours or physique/body image anxiety? It may be useful to use validated resources such as [EDE-Q](pdf:ede-q_EN.pdf) or [ADE](pdf:ADE_en.pdf).',
       options: [
         { label: 'Yes', next: 'q5' },
         { label: 'No', next: 'q6' },

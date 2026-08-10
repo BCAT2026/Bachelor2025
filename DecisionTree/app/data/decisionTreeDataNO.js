@@ -44,7 +44,7 @@ const decisionTreeDataNO = [
     id: 'q4',
     step: 1,
     question:
-      'Er det bekymringer knyttet til spiseatferd eller negativt kroppsbilde? Det kan være nyttig å benytte validerte ressurser: [EDE-Q](pdf:ede-q_NO.pdf), [ADE](pdf:ADE_en.pdf) eller [BAS-2](pdf:BAS-2_no.pdf).',
+      'Er det bekymringer knyttet til spiseatferd eller negativt kroppsbilde? Det kan være nyttig å benytte validerte ressurser som [EDE-Q](pdf:ede-q_NO.pdf) eller [ADE](pdf:ADE_en.pdf).',
     options: [
       { label: 'Ja', next: 'q5' },
       { label: 'Nei', next: 'q6' },
