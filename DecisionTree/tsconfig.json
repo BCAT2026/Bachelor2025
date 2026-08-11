@@ -20,6 +20,10 @@
     "app/(tabs)/explore.jsx", 
     "app/(tabs)/guidelines.jsx", 
     "app/(tabs)/index.jsx", 
-    "components/ThemedText.jsx"  
+    "components/ThemedText.jsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "bcat"
   ]
 }
